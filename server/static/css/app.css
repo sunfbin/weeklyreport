@@ -1,0 +1,8 @@
+/*@import url("uikit.gradient.css");*/
+@import url(uikit.css);
+
+main-ui {
+    height: 720px;
+    background: url("../images/logo.png") no-repeat;
+}
+
