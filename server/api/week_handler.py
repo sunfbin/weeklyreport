@@ -5,7 +5,7 @@ from server.model import db
 from server.model.week import Week
 
 
-@app.route('/weeks')
+@app.route('/weeks', methods=['get'])
 def get_all_weeks():
     weeks = Week.query.all()
     response = make_response(jsonify([week.serialize() for week in weeks]), 200)
@@ -14,8 +14,21 @@ def get_all_weeks():
     return response
 
 
-@app.route('/weeks/:id', methods=['put'])
-def get_task(week_id):
+@app.route('/weeks', methods=['post'])
+def save_week():
+    week_date = request.values['date']
+    week = Week(week_date)
+    db.session.add(week)
+    db.session.commit()
+
+    response = make_response(jsonify({'week': week.serialize()}), 200)
+    # response.set_cookie('username', 'the username')
+    response.headers['Content-type'] = 'application/json'
+    return response
+
+
+@app.route('/weeks/<week_id>', methods=['put'])
+def update_week(week_id):
     # status could be skipped [skip], holiday[] or normal [active]
     week = Week.query.filter_by(id=week_id).first()
     status = request.values['status']

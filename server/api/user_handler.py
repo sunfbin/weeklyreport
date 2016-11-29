@@ -12,7 +12,7 @@ def get_all_users():
     return response
 
 
-@app.route('/users/:id')
+@app.route('/users/<user_id>')
 def get_user(user_id):
     user = fetch_users({'id': user_id})
     user =user.first()

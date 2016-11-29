@@ -21,18 +21,22 @@ def get_tasks():
     response.headers['Content-type'] = 'application/json'
     return response
 
-@app.route('/tasks/:id')
+
+@app.route('/tasks/<task_id>')
 def read_task(task_id):
-    result = {'id': task_id}
-    response = make_response(result, 200)
-    response.headers['Content-type'] = 'application/json'
+    task = Task.query.get(task_id);
+    if task is None:
+        response = make_response({}, 404)
+        response.headers['Content-type'] = 'application/json'
+    else:
+        response = make_response({'task': task.serialize()}, 200)
+        response.headers['Content-type'] = 'application/json'
     return response
 
 
 @app.route('/tasks', methods=['post'])
 def create_task():
-    param = request.form
-    task = Task(param)
+    task = Task(request.values)
     db.session.add(task)
     db.session.commit()
     result = {
@@ -45,13 +49,19 @@ def create_task():
     return response
 
 
+@app.route('/tasks/<task_id>', methods=['delete'])
+def delete_task(task_id):
+    task = Task.query.get(task_id)
+    db.session.delete(task)
+    db.session.commit()
+    result = {'success': True}
+    response = make_response(json.dumps(result), 200)
+    response.set_cookie('username', 'the username')
+    response.headers['Content-type'] = 'application/json'
+    return response
 
-@app.route('/tasks/:id', methods=['delete'])
-def delete_task():
-    pass
 
-
-@app.route('/tasks/:id', methods=['put'])
+@app.route('/tasks/<task_id>', methods=['put'])
 def update_task():
     pass
 

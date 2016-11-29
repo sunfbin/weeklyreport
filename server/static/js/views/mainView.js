@@ -198,17 +198,17 @@ define([
             e.preventDefault();
             var self = this;
 
-            var taskId = e.target.parentNode.dataset.taskId
+            var taskId = e.target.parentNode.dataset.taskId;
+            var taskName = e.target.parentNode.nextElementSibling.textContent;
             console.log('task id is : '+ taskId);
-            var msg = 'Task {0} will be removed permanently. Press Yes to continue'
+            var msg = 'Task <b>' + taskName + '</b> will be removed permanently.<br> Press Yes to continue';
+            var del_url = '/tasks/' + taskId;
             var result = UIkit.modal.confirm(msg, function(){
                 console.log('task removed');
                 $.ajax({
-                url: '/tasks',
+                url: del_url,
                 method: 'delete',
-                data: taskId,
                 success: function(response) {
-                    //reload
                     self.reloadTasks();
                 },
                 failure: function(response) {

@@ -13,14 +13,24 @@ class Task(db.Model):
 
 
     def __init__(self, options):
-        self.name = options['name']
-        self.status = options['status']
-        self.project = options['project']
-        self.progress = options['progress']
-        self.risk = options['risk']
-        self.user_id = options['userId']
-        self.date = options['date']
-        self.description = options['description']
+        if 'id' in options:
+            self.id = options['id']
+        if 'name' in options:
+            self.name = options['name']
+        if 'status' in options:
+            self.status = options['status']
+        if 'project' in options:
+            self.project = options['project']
+        if 'progress' in options:
+            self.progress = options['progress']
+        if 'risk' in options:
+            self.risk = options['risk']
+        if 'userId' in options:
+            self.user_id = options['userId']
+        if 'date' in options:
+            self.date = options['date']
+        if 'description' in options:
+            self.description = options['description']
 
     def serialize(self):
         return {
