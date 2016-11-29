@@ -1,16 +1,23 @@
 
 <div class="uk-modal-dialog">
-    <a class="uk-modal-close uk-close "></a>
+    <button type="button" class="uk-modal-close uk-close "></button>
+
+    <div class="uk-modal-header">
+        <h2>Settings</h2>
+    </div>
 
     <div class="notify-pane"></div>
-    <form method="POST" id="login_form" class="uk-form">
+    <form id="login_form" class="uk-form">
         Week Starts at: <input value="" name="startingDay"/>
         <hr>
         Member Status: Disable someone
         <br>Add new Member?
         <br>Edit current login user info
         <br>change password
-        <input type="button" id="save" value="Save"/>
-        <a href="" id="cancel" >Cancel</a>
+
     </form>
+    <div class="uk-modal-footer uk-text-right">
+        <input type="button" id="save" class="uk-button" value="Save"/>
+        <a href="" id="cancel" class="uk-link">Cancel</a>
+    </div>
 </div>

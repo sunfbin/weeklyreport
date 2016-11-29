@@ -1,12 +1,19 @@
 
 <div class="uk-modal-dialog">
-    <a class="uk-modal-close uk-close "></a>
+    <button type="button" class="uk-modal-close uk-close "></button>
 
+    <div class="uk-modal-header">
+        <h2>Login</h2>
+    </div>
     <div class="notify-pane"></div>
-    <form method="POST" id="login_form" class="uk-form">
+
+    <form id="login_form" class="uk-form">
         User Name: <input value="" name="username"/><br>
         Password:<input type="password" value="" name="password"/><br>
-        <input type="button" id="login" value="Login"/>
-        <a href="" id="cancel" >Close Window</a>
+
     </form>
+    <div class="uk-modal-footer uk-text-right">
+        <input type="button" id="login" value="OK" class="uk-button"/>
+        <a id="cancel" class="uk-link">Close</a>
+    </div>
 </div>

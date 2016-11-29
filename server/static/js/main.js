@@ -23,7 +23,7 @@ require.config({
         'jcarousel': 'vendor/jquery/jcarousel/jquery.jcarousel',
         'modernizr': 'vendor/modernizr/modernizr',
         'foundation': 'vendor/foundation/foundation',
-        'underscore': 'vendor/underscore/underscore',
+        'underscore': 'vendor/backbone.marionette/underscore',
         'template': 'vendor/hogan.js/web/builds/2.0.0/template-2.0.0',
         'hogan': 'vendor/hogan.js/web/builds/2.0.0/hogan-2.0.0',
         'backbone': 'vendor/backbone/backbone',
@@ -32,7 +32,8 @@ require.config({
         'backbone.modal': 'vendor/backbone/backbone.modal',
         'backbone.marionette.modals': 'vendor/backbone/backbone.marionette.modals',
         'backbone.syphon': 'vendor/backbone/backbone.syphon',
-        'marionette': 'vendor/backbone/backbone.marionette',
+        'backbone.radio': 'vendor/backbone.marionette/backbone.radio',
+        'marionette': 'vendor/backbone.marionette/backbone.marionette',
         'validator': 'vendor/validator/validator',
         'text': 'vendor/require/text',
         'd3': 'vendor/d3/d3',
@@ -316,8 +317,13 @@ require.config({
 });
 
 
-require([
-    'app'
+define([
+    'marionette',
+    'backbone',
+    'hogan',
+    'uikit'
 ], function (app) {
-    app.start();
+    require(['app'], function(app){
+        app.start();
+    })
 });

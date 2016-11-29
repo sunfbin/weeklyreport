@@ -1,29 +1,29 @@
 
 
-<div id="primary_nav_pane" class="uk-offcanvas" aria-hidden="true">
+<div id="primary_nav" class="uk-offcanvas" aria-hidden="true">
     <div class="uk-offcanvas-bar">
         <ul class="uk-nav uk-nav-offcanvas uk-nav-parent-icon">
             <li class="uk-nav-header">Week List</li>
-            <li class=""><a>Week 20161114</a></li>
-            <li class=""><a>Previous Week</a></li>
-            <li class="uk-active"> <a href="" id="current">Current Week</a></li>
-            <li class=""><a>Next Week</a></li>
+            <li class="uk-nav-divider"></li>
+            <li class="uk-active"> <a id="current-week">Current Selected Week</a></li>
         </ul>
     </div>
 </div>
 <div class="uk-container uk-container-center">
     <!-- Top Bar-->
     <div class="uk-grid">
-        <div class="uk-width-1-1">Background Here?</div>
+        <div class="uk-width-1-1">
+            <img class="top-logo" src="/static/images/juniper.png" alt="background">
+        </div>
         <div class="uk-width-1-1">
             <nav class="uk-navbar">
                 <ul class="uk-navbar-nav">
-                    <li><a class="uk-link" data-uk-offcanvas="{target:'#primary_nav_pane'}">Show Weeks List</a></li>
+                    <li><a class="uk-link" data-uk-offcanvas="{target:'#primary_nav'}">Show Weeks List</a></li>
                 </ul>
                 <div class="uk-navbar-flip">
                     <ul class="uk-navbar-nav">
                         <li><a id="settings" class="uk-link uk-icon-cog">Settings</a></li>
-                        <li><a class="uk-link">Log out</a></li>
+                        <li><a id="logout" class="uk-link">Log out</a></li>
                     </ul>
                 </div>
             </nav>
@@ -33,54 +33,91 @@
 
     <!-- -->
     <div class="uk-grid" data-uk-grid="{gutter: 20}" >
-        <div id="secondary_nav_pane" class="uk-width-1-5 uk-row-first">
-            <ul class="uk-nav uk-nav-side uk-nav-parent-icon">
-                <li class="uk-nav-header">Team Members</li>
-                <li class="uk-nav-divider"></li>
-                <li class="uk-active"><a><img class="uk-thumbnail" src="" alt="M1">Member 1</a></li>
-                <li class=""><a><img class="uk-thumbnail" src="" alt="M2">Member 2</a></li>
-                <li class=""><a><img class="uk-thumbnail" src="" alt="M3">Member 3</a></li>
-                <li class=""><a><img class="uk-thumbnail" src="" alt="M4">Member 4</a></li>
-                <li class=""><a><img class="uk-thumbnail" src="" alt="M5">Member 5</a></li>
-
-            </ul>
-
-            <ul class="uk-subnav">
-                <li> <a> Add </a> </li>
+        <div class="uk-width-1-5">
+            <div class="uk-panel uk-panel-box uk-panel-box-primary">
+                <h3 class=""> Date:
+                <span class="" id="report-date"> loading </span></h3>
+            </div>
+            <div class="uk-panel uk-panel-box">
+                <ul id="secondary_nav" class="uk-nav uk-nav-side uk-nav-parent-icon">
+                    <li class="uk-nav-header">Team Members</li>
+                    <li class="uk-nav-divider"></li>
+                    <li class="">
+                        <a class="member-link" data-member-id="1" data-member-name="Fengbin">
+                            <img class="uk-thumbnail" src="" alt="M1">
+                            Fengbin
+                        </a>
+                    </li>
+                    <li class="">
+                        <a class="member-link" data-member-id="2" data-member-name="Daisy">
+                            <img class="uk-thumbnail" src="" alt="M1">
+                            Daisy Li
+                        </a>
+                    </li>
+                    <li class="">
+                        <a class="member-link" data-member-id="3" data-member-name="Kyle">
+                            <img class="uk-thumbnail" src="" alt="M1">
+                            Kyle Ma
+                        </a>
+                    </li>
+                    <li class="">
+                        <a class="member-link" data-member-id="4" data-member-name="Yixian">
+                            <img class="uk-thumbnail" src="" alt="M1">
+                            Yixian Li
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!--<ul class="uk-subnav">
+                <li> <a> Select </a> </li>
                 <li> <a> Skip </a> </li>
-            </ul>
+            </ul>-->
         </div>
 
-        <div id="content_pane" class="uk-width-4-5 uk-row-first">
-            <ul class="uk-subnav">
-                <li> <a> Add Another Slide</a> </li>
-                <li> <a> Delete Last Slide</a> </li>
-                <li> <a> Preview </a> </li>
-            </ul>
+        <div class="uk-width-4-5">
 
             <div class="uk-placeholder">
-                <ul class="uk-subnav">
-                    <li> <a> Add Task</a> </li>
-                    <li> <a> Delete Task</a> </li>
-                </ul>
-                Content Here
-
+                 Tasks of <span id="member-name"></span>
             </div>
-
-            <div class="uk-placeholder">
-                <ul class="uk-subnav">
-                    <li> <a> Add Task</a> </li>
-                    <li> <a> Delete Task</a> </li>
-                </ul>
-                A new content slide
-
+            <div class="tasks-list uk-placeholder">
+                <table class="uk-table uk-table-striped uk-table-condensed uk-table-hover">
+                    <!--<caption>All Tasks for last week</caption>-->
+                    <thead>
+                        <tr style="border:0px;">
+                            <th>Action</th>
+                            <th>Name</th>
+                            <th width="120px">Status</th>
+                            <th width="120px">Project</th>
+                            <th width="120px">Progress</th>
+                            <th>Risk</th>
+                        </tr>
+                    </thead>
+                    <tbody id="main-grid">
+                        <tr class="uk-form creation-row" style="border:0px;">
+                            <td>
+                                <input type="button" value="Save     " class="uk-button" id="save-task">
+                            </td>
+                            <td>
+                                <input placeholder="Task Name" id="new-task-name">
+                            </td>
+                            <td>
+                                <input placeholder="Status" id="new-task-status">
+                            </td>
+                            <td>
+                                <input placeholder="Project Name" id="new-task-project">
+                            </td>
+                            <td>
+                                <input placeholder="Progress" id="new-task-progress">
+                            </td>
+                            <td>
+                                <input placeholder="Risk" id="new-task-risk">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-
     </div>
-
 </div>
-
-<div id="modal_pane" class="uk-modal" aria-hidden="true">
-
+<div id="overlay" class="uk-modal" aria-hidden="true">
 </div>

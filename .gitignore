@@ -1,1 +1,6 @@
 .DS_Store
+/venv
+/server/database/
+/server/static/css/style.less
+/server/static/css/uikit.almost-flat.css
+/server/static/css/uikit.gradient.css

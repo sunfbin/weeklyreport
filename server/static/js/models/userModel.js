@@ -4,9 +4,7 @@
  * @author Fengbin
  */
 
-define([
-    'backbone'
-], function(Backbone) {
+define([], function() {
     var UserModel = Backbone.Model.extend({
         defaults: {
             id: null,

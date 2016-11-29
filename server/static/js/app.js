@@ -5,42 +5,33 @@
  */
 
 define([
-    'marionette',
     './views/loginView',
-    './views/mainView'
-], function(Marionette, LoginView, MainView) {
-    window.weeklyreport = new Marionette.Application({
+    './views/mainView',
+], function(LoginView, MainView) {
+    window.weeklyReport = new Backbone.Marionette.Application({
         region: 'body',
         onStart: function() {
-            Backbone.history.start();
-            var mainView = new MainView();
-            this.showView(mainView);
+            var self = this;
             console.log("on start app");
-        },
-        start: function() {
-            console.log("start app");
+            Backbone.history.start();
+
+            var mainView = new MainView();
+            self.showView(mainView);
+
             $.ajax({
                 url: '/is_authenticated',
                 method: 'POST',
                 success: function(response){
-                    console.log("check auth success");
-                    console.log(response);
-                    if (response) {
-                        var mainView = new MainView()
-                        mainView.render();
+                    console.log("check auth result:"+response);
+                    if (!response) {
                         var loginView = new LoginView()
                         loginView.render();
-                    } else {
                     }
-                },
-                failure: function() {
-                    console.log("check auth fail");
-                    var loginView = new LoginView()
-                    loginView.render();
                 }
-            })
+            });
         }
     });
-    return weeklyreport;
+
+    return weeklyReport;
 })
 

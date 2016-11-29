@@ -1,8 +1,18 @@
 /*@import url("uikit.gradient.css");*/
 @import url(uikit.css);
 
-main-ui {
-    height: 720px;
-    background: url("../images/logo.png") no-repeat;
+
+img.top-logo {
+    height: 98px;
+    width: 100%;
 }
 
+.tasks-list {
+    height: 100%;
+    max-height: 450px;
+    overflow: auto; /*or overlay*/
+}
+
+.creation-row {
+    background: #b1a1a1!important;
+}

@@ -27,3 +27,11 @@ class User(db.Model):
 
     def __repr__(self):
         return 'Model class User %r ' % self.name
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "role": self.role
+        }
+

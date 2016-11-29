@@ -6,8 +6,8 @@ app = Flask(__name__)
 app.config.from_object(config)
 
 from server.model.user import User
+from server.model.week import Week
 from server.model.task import Task
-from server.model.report import Report
 
 
 from server.model import db
@@ -20,9 +20,9 @@ with app.app_context():
 # login_manager.init_app(app)
 
 
-from server.api import login_handler, task_handler, user_handler
-import server.api.task_handler
-import server.api.user_handler
+from server.api import login_handler, task_handler, user_handler, week_handler
+# import server.api.task_handler
+# import server.api.user_handler
 
 
 

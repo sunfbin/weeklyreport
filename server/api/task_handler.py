@@ -9,7 +9,13 @@ from server.model.task import Task
 
 @app.route('/tasks', methods=['get'])
 def get_tasks():
-    tasks = Task.query.all()
+    filters = request.values
+    if filters is None:
+        tasks = Task.query.all()
+    else:
+        user_id = filters['userId']
+        week_date = filters['date']
+        tasks = Task.query.filter_by(user_id=user_id, date=week_date)
     response = make_response(jsonify([task.serialize() for task in tasks]), 200)
     response.set_cookie('username', 'the username')
     response.headers['Content-type'] = 'application/json'
@@ -22,16 +28,23 @@ def read_task(task_id):
     response.headers['Content-type'] = 'application/json'
     return response
 
+
 @app.route('/tasks', methods=['post'])
 def create_task():
-    param = json.loads(request.data)
-    task = Task(param["name"], param["progress"])
+    param = request.form
+    task = Task(param)
     db.session.add(task)
-    task = db.session.commit()
-    response = make_response(json.dumps(task), 200)
+    db.session.commit()
+    result = {
+        'success': True,
+        'task': task.serialize()
+    }
+    response = make_response(json.dumps(result), 200)
     response.set_cookie('username', 'the username')
     response.headers['Content-type'] = 'application/json'
     return response
+
+
 
 @app.route('/tasks/:id', methods=['delete'])
 def delete_task():

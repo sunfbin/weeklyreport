@@ -5,9 +5,8 @@
  */
 
 define([
-    'backbone',
     'userModel'
-], function(Backbone, UserModel) {
+], function(UserModel) {
     var UserCollection = Backbone.Collection.extend({
         model: UserModel,
         url: '/users',

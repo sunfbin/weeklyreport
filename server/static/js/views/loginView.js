@@ -11,16 +11,15 @@ define([
 ], function(BaseView, UserModel, loginTemplate) {
     var loginView = BaseView.extend({
         model: new UserModel(),
-        el: '#modal_pane',
         events: {
-            'click #login': 'do_login'
+            'click #login': 'do_login',
+            'click #cancel': 'cancel'
         },
         render: function() {
             var login_form = this.compileTemplate(loginTemplate).render({});
 
-            $('#login').click($.proxy(this.do_login, this));
+//            $('#login').click($.proxy(this.do_login, this));
             this.$el.html(login_form);
-            UIkit.modal("#modal_pane").show();
             return this;
         },
 
@@ -47,6 +46,11 @@ define([
                 success: success,
                 failure: failure
             })
+        },
+
+        cancel: function(e) {
+            e.preventDefault();
+            UIkit.modal("#overlay").hide();
         }
     });
 

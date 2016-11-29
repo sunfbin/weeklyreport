@@ -2,14 +2,17 @@ from server.model import db
 
 class Week(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    day_date = db.Column(db.Date, unique=True)
-    status = db.Column(db.Boolean)  # false means skipped (no meeting this week)
+    date = db.Column(db.String(32), unique=True)
+    status = db.Column(db.String(64)) # skipped, holiday
 
-    def __init__(self, current_date):
-        self.day_date = current_date
+    def __init__(self, date, status="normal"):
+        self.date = date
+        self.status = status
 
-    def skip_this_week(self):
-        self.status = False
 
-    def unskip_this_week(self):
-        self.status = True
+    def serialize(self):
+        return {
+            "id": self.id,
+            "date": self.date,
+            "status": self.status
+        }
