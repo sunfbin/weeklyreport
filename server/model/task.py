@@ -8,8 +8,8 @@ class Task(db.Model):
     progress = db.Column(db.Integer)
     description = db.Column(db.String(128))
     risk = db.Column(db.String(128))
-    date = db.Column(db.String(32))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    week_id = db.Column(db.Integer, db.ForeignKey('week.id'))
 
 
     def __init__(self, options):
@@ -27,8 +27,8 @@ class Task(db.Model):
             self.risk = options['risk']
         if 'userId' in options:
             self.user_id = options['userId']
-        if 'date' in options:
-            self.date = options['date']
+        if 'weekId' in options:
+            self.week_id = options['weekId']
         if 'description' in options:
             self.description = options['description']
 
@@ -42,7 +42,7 @@ class Task(db.Model):
             "status": self.status,
             "risk": self.risk,
             "userId": self.user_id,
-            "date": self.date
+            "weekId": self.week_id
         }
 
     def __repr__(self):

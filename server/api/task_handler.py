@@ -14,8 +14,8 @@ def get_tasks():
         tasks = Task.query.all()
     else:
         user_id = filters['userId']
-        week_date = filters['date']
-        tasks = Task.query.filter_by(user_id=user_id, date=week_date)
+        week_id = filters['weekId']
+        tasks = Task.query.filter_by(user_id=user_id, week_id=week_id)
     response = make_response(jsonify([task.serialize() for task in tasks]), 200)
     response.set_cookie('username', 'the username')
     response.headers['Content-type'] = 'application/json'

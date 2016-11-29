@@ -4,6 +4,28 @@ from server import app
 from server.model import db
 from server.model.week import Week
 
+date_format = '%Y-%m-%d'
+
+@app.route('/weeks/init', methods=['post'])
+def generate_weeks():
+    count_num = 18
+    for i in range(count_num):
+        day = get_previous_report_day(i)
+        week = Week(day)
+        db.session.add(week)
+    db.session.commit()
+    result = {'success': True}
+    response = make_response(jsonify(result), 200)
+    # response.set_cookie('username', 'the username')
+    response.headers['Content-type'] = 'application/json'
+    return response
+
+
+def get_previous_report_day(times):
+    today = datetime.date.today()
+    previous_day = today - (datetime.timedelta(7 - today.weekday())) * times
+    return datetime.date.strftime(previous_day, date_format)
+
 
 @app.route('/weeks', methods=['get'])
 def get_all_weeks():
@@ -39,12 +61,14 @@ def update_week(week_id):
     return response
 
 
-@app.route('/weeks/next-monday', methods=['get'])
-def next_monday():
-    next_monday = get_next_monday()
-    week = Week.query.filter_by(date=next_monday).first()
+@app.route('/weeks/next', methods=['get'])
+def next_week():
+    today = datetime.date.today()
+    today = datetime.date.strftime(today, date_format)
+    week = Week.query.filter(Week.date>today).first()
     if week is None:
-        week = Week(next_monday)
+        next_report_day = get_next_report_day()
+        week = Week(next_report_day)
         db.session.add(week)
         db.session.commit()
     response = make_response(jsonify(week.serialize()), 200)
@@ -52,10 +76,10 @@ def next_monday():
     return response
 
 
-def get_next_monday():
+def get_next_report_day():
     today = datetime.date.today()
-    if today.weekday()==0:
-        next_monday = today
+    if today.weekday() == app.config['REPORT_DAY']: #
+        next_day = today
     else:
-        next_monday = today + datetime.timedelta(7 - today.weekday())
-    return datetime.date.strftime(next_monday, '%Y-%m-%d')
+        next_day = today + datetime.timedelta(7 - today.weekday())
+    return datetime.date.strftime(next_day, date_format)

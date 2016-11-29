@@ -9,7 +9,6 @@ from server.model.user import User
 from server.model.week import Week
 from server.model.task import Task
 
-
 from server.model import db
 db.init_app(app)
 with app.app_context():
@@ -20,10 +19,7 @@ with app.app_context():
 # login_manager.init_app(app)
 
 
-from server.api import login_handler, task_handler, user_handler, week_handler
-# import server.api.task_handler
-# import server.api.user_handler
-
-
-
-
+import server.api.login_handler
+import server.api.task_handler
+import server.api.user_handler
+import server.api.week_handler

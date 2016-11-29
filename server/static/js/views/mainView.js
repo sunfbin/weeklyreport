@@ -9,15 +9,16 @@ define([
     './loginView',
     './settingView',
     'text!../templates/main.html',
+    'text!../templates/week.html',
     'text!../templates/task.html'
-], function(BaseView, LoginView, SettingsView, IndexTemplate, taskTemplate) {
+], function(BaseView, LoginView, SettingsView, IndexTemplate, weekTemplate, taskTemplate) {
     var MainView = BaseView.extend({
         events: {
             'click #logout' : 'logout',
             'click #save-task' : 'saveTask',
             'click .remove-task' : 'removeTask',
             'click .member-link' : 'loadMemberTasks',
-            'click #current-week' : 'selectCurrentWeek',
+            'click .week-link' : 'selectWeek',
             'click #settings': 'config'
         },
         regions: {
@@ -52,35 +53,73 @@ define([
                         self.detachChildView('overlay');
                     }
                 });
+                UIkit.on('show.uk.offcanvas', function() {
+                    if (!self.offCanvasShowedUp) {
+                        self.offCanvasShowedUp = true;
+                        self.loadWeeks();
+                    }
+                });
             });
             this.init();
             return this;
         },
 
-        selectCurrentWeek: function(e) {
-            e.preventDefault();
+        loadWeeks: function() {
+            var self = this;
+            $.ajax({
+                url: '/weeks',
+                method: 'get',
+                success: function(response) {
+                    response.forEach(function(week) {
+                        var html = self.compileTemplate(weekTemplate).render(week);
+                        self.$el.find('ul.uk-nav-offcanvas').append(html);
+                    });
+                },
+                failure: function(response) {
+                    console.log(response);
+                }
+            });
+        },
 
-            this.init();
+        selectWeek: function(e) {
+            e.preventDefault();
+            var weekId = e.target.dataset.weekId;
+            var weekDate = e.target.text;
+            this.nextWeekId = weekId;
+
+            var primaryNav = this.$el.find('ul.uk-nav-offcanvas');
+            primaryNav.children().removeClass('uk-active');
+            primaryNav.find(e.target.parentNode).addClass('uk-active');
+            this.$el.find('#report-date').html(weekDate);
+            this.$el.find('#report-date')[0].dataset.nextWeekId = weekId;
+
+            this.selectMember();
             UIkit.offcanvas.hide();
         },
 
-        selectFirstMember: function() {
+        selectMember: function() {
             var view = this.$el.find('#secondary_nav');
-            view.children().removeClass('uk-active');
-            var firstChild = view.find('li.uk-nav-divider').next();
-            firstChild.find('a').trigger('click');
-            firstChild.addClass('uk-active');
+            var selected = view.find('.uk-active');
+            if (selected.length == 0) {
+                var firstChild = view.find('li.uk-nav-divider').next();
+                firstChild.find('a').trigger('click');
+                firstChild.addClass('uk-active');
+            } else {
+                selected.find('a').trigger('click');
+            }
         },
 
         init: function() {
             var self = this;
             $.ajax({
-                url: '/weeks/next-monday',
+                url: '/weeks/next',
                 method: 'get',
                 success: function(response) {
                     self.date = response.date;
+                    self.nextWeekId = response.id;
                     self.$el.find('#report-date').html(response.date);
-                    self.selectFirstMember();
+                    self.$el.find('#report-date')[0].dataset.nextWeekId = response.id;
+                    self.selectMember();
                 },
                 failure: function(response) {
                     console.log(response);
@@ -102,7 +141,7 @@ define([
         },
 
         saveTask: function() {
-            if (!this.userId || !this.date) {
+            if (!this.userId || !this.nextWeekId) {
                 console.log('please select user and date');
                 return false;
             }
@@ -130,7 +169,7 @@ define([
                 description: description,
                 risk: risk,
                 userId: this.userId,
-                date: this.date
+                weekId: this.nextWeekId
             };
 
             $.ajax({
@@ -152,7 +191,7 @@ define([
             var self = this;
             var data = data || {
                 userId: this.userId,
-                date: this.date
+                weekId: this.nextWeekId
             };
             $.ajax({
                 url: '/tasks',
@@ -188,7 +227,7 @@ define([
 
             var data = {
                 userId: this.userId,
-                date: this.date
+                weekId: this.nextWeekId
             };
             this.reloadTasks(data);
 
