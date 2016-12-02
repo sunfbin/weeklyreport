@@ -16,32 +16,32 @@ define([
         events: {
             'click #logout' : 'logout',
             'click #save-task' : 'saveTask',
-            'click .remove-task' : 'removeTask',
+            'click .uk-icon-pencil.task-row-action' : 'modifyTask',
+            'click .uk-icon-trash.task-row-action' : 'removeTask',
             'click .member-link' : 'loadMemberTasks',
             'click .week-link' : 'selectWeek',
+            'change #new-task-progress' : 'showProgress',
             'click #settings': 'config'
         },
+        className: 'uk-height-viewport',
+        ui: {
+            'members': '.member-link'
+        },
+        triggers: {},
         regions: {
             'primary-nav': '#primary_nav',
-            //'top-bar': '#top-bar',
             'overlay': '#overlay',
             'second-nav': '#secondary_nav',
             'main-grid': '#main-grid'
         },
+        template: function() {
+            return Hogan.compile(IndexTemplate).render();
+        },
 
-        render: function() {
+        onRender: function() {
             var self = this;
 
-            var form = this.compileTemplate(IndexTemplate).render();
-            this.$el.html(form);
-
             this.on('attach', function() {
-                // configuration of UIkit.modal
-                _.extend(UIkit.modal('#overlay').options, {
-                    'bgclose': false,
-                    'keyboard': false,
-                    'center': true
-                });
                 UIkit.modal('#overlay').on({
 
                     'show.uk.modal': function(){
@@ -75,7 +75,7 @@ define([
                         self.$el.find('ul.uk-nav-offcanvas').append(html);
                     });
                 },
-                failure: function(response) {
+                error: function(response) {
                     console.log(response);
                 }
             });
@@ -120,24 +120,31 @@ define([
                     self.$el.find('#report-date').html(response.date);
                     self.$el.find('#report-date')[0].dataset.nextWeekId = response.id;
                     self.selectMember();
+                    self.$el.find("#new-task-eta").val(self.date);
                 },
-                failure: function(response) {
+                error: function(response) {
                     console.log(response);
                 }
             });
+        },
+
+        showModalOverlay: function(opt) {
+            _.extend(UIkit.modal('#overlay').options, opt);
+            UIkit.modal('#overlay').show();
         },
 
         logout: function() {
             console.log('click on logout')
 
             this.showChildView('overlay', new LoginView());
-            UIkit.modal('#overlay').show();
+            this.showModalOverlay({'bgclose': false, 'keyboard': false, 'center': true});
+
         },
 
         config: function() {
             var settingView = new SettingsView();
             this.showChildView('overlay', settingView);
-            UIkit.modal('#overlay').show();
+            this.showModalOverlay({'bgclose': false, 'keyboard': false, 'center': true});
         },
 
         saveTask: function() {
@@ -152,14 +159,16 @@ define([
             var project = this.$el.find('#new-task-project').val();
             var progress = this.$el.find('#new-task-progress').val();
             var risk = this.$el.find('#new-task-risk').val();
+            var eta = this.$el.find('#new-task-eta').val();
             var description = this.$el.find('#new-task-risk').val();
 
             if (_.isEmpty(taskName)) {
-                UIkit.modal.alert('Task Name could not be empty');
+                UIkit.modal.alert('Task Name could not be empty', {
+                    'bgclose': true,
+                    'keyboard': true
+                });
                 return false;
             }
-
-            this.$el.find('input[id*=new-task]').val('');
 
             var data = {
                 name: taskName,
@@ -168,6 +177,7 @@ define([
                 progress: progress,
                 description: description,
                 risk: risk,
+                eta: eta,
                 userId: this.userId,
                 weekId: this.nextWeekId
             };
@@ -178,13 +188,32 @@ define([
                 data: data,
                 success: function(response) {
                     console.log('save task success');
+                    self.clearForm();
                     self.reloadTasks();
                 },
-                failure: function(response) {
-                    console.log('save task fail')
-                    console.log(response)
+                error: function(response) {
+                    response = JSON.parse(response.responseText);
+                    if (response.status == 409) {
+                        UIkit.modal.alert(response.message, {
+                            'bgclose': true,
+                            'keyboard': true
+                        });
+                    } else {
+                        console.log(response)
+                    }
                 }
             })
+        },
+
+        clearForm: function() {
+            this.$el.find('input[id*=new-task-name]').val('');
+            this.$el.find('input[id*=new-task-project]').val('');
+            this.$el.find('input[id*=new-task-risk]').val('');
+            this.$el.find('input[id*=new-task][type=hidden]').val('0');
+            this.$el.find("#new-task-status").val('Green');
+            var today = (new Date()).toISOString();
+            today = today.split("T")[0];
+            this.$el.find("#new-task-eta").val(today);
         },
 
         reloadTasks: function(data) {
@@ -206,9 +235,8 @@ define([
                         self.$el.find('#main-grid').append(html);
                     })
                 },
-                failure: function(response) {
-                    console.log('save task fail')
-                    this.notify('load task fail error')
+                error: function(response) {
+                    self.notify('error', 'Load task fail');
                 }
             });
         },
@@ -233,29 +261,43 @@ define([
 
         },
 
+        modifyTask: function(e) {
+            e.preventDefault();
+            var self = this;
+            var taskId = e.target.dataset.taskId;
+            var taskName = e.target.dataset.taskName;
+            console.log("Will modify task: "+ taskName);
+        },
+
         removeTask: function(e) {
             e.preventDefault();
             var self = this;
 
-            var taskId = e.target.parentNode.dataset.taskId;
-            var taskName = e.target.parentNode.nextElementSibling.textContent;
+            var taskId = e.target.dataset.taskId;
+            var taskName = e.target.dataset.taskName;
             console.log('task id is : '+ taskId);
             var msg = 'Task <b>' + taskName + '</b> will be removed permanently.<br> Press Yes to continue';
             var del_url = '/tasks/' + taskId;
+
             var result = UIkit.modal.confirm(msg, function(){
                 console.log('task removed');
                 $.ajax({
-                url: del_url,
-                method: 'delete',
-                success: function(response) {
-                    self.reloadTasks();
-                },
-                failure: function(response) {
-                    console.log('delete task fail')
-                }
-            });
+                    url: del_url,
+                    method: 'delete',
+                    success: function(response) {
+                        self.reloadTasks();
+                    },
+                    error: function(response) {
+                        console.log('delete task fail')
+                    }
+                });
             });
 
+        },
+
+        showProgress: function(e) {
+            var value = e.target.value;
+            this.$el.find(e.target).next().text(value);
         }
 
     });

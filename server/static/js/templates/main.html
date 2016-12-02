@@ -1,5 +1,3 @@
-
-
 <div id="primary_nav" class="uk-offcanvas" aria-hidden="true">
     <div class="uk-offcanvas-bar">
         <ul class="uk-nav uk-nav-offcanvas uk-nav-parent-icon">
@@ -8,7 +6,7 @@
         </ul>
     </div>
 </div>
-<div class="uk-container uk-container-center">
+<div class="uk-container uk-container-center content-area">
     <!-- Top Bar-->
     <div class="uk-grid">
         <div class="uk-width-1-1">
@@ -21,8 +19,14 @@
                 </ul>
                 <div class="uk-navbar-flip">
                     <ul class="uk-navbar-nav">
-                        <li><a id="settings" class="uk-link uk-icon-cog">Settings</a></li>
-                        <li><a id="logout" class="uk-link">Log out</a></li>
+                        <li>
+                            <a id="settings" class="uk-link">
+                                <i class="uk-icon-cog"></i> Settings
+                            </a>
+                        </li>
+                        <li><a id="logout" class="uk-link">
+                            <i class="uk-icon-power-off"></i> Log out
+                        </a></li>
                     </ul>
                 </div>
             </nav>
@@ -31,38 +35,45 @@
     </div>
 
     <!-- -->
-    <div class="uk-grid" data-uk-grid="{gutter: 20}" >
+    <div class="uk-grid tasks-list" data-uk-grid="{gutter: 20}" >
         <div class="uk-width-1-5">
             <div class="uk-panel uk-panel-box uk-panel-box-primary">
                 <h3 class=""> Date:
                 <span class="" id="report-date" data-next-week-id=""> loading </span></h3>
             </div>
+
             <div class="uk-panel uk-panel-box">
                 <ul id="secondary_nav" class="uk-nav uk-nav-side uk-nav-parent-icon">
                     <li class="uk-nav-header">Team Members</li>
                     <li class="uk-nav-divider"></li>
                     <li class="">
                         <a class="member-link" data-member-id="1" data-member-name="Fengbin">
-                            <img class="uk-thumbnail" src="" alt="M1">
-                            Fengbin
+                            <i class="uk-icon-user"></i> Fengbin
                         </a>
                     </li>
                     <li class="">
                         <a class="member-link" data-member-id="2" data-member-name="Daisy">
-                            <img class="uk-thumbnail" src="" alt="M1">
-                            Daisy Li
+                            <i class="uk-icon-user"></i> Daisy Li
                         </a>
                     </li>
                     <li class="">
-                        <a class="member-link" data-member-id="3" data-member-name="Kyle">
-                            <img class="uk-thumbnail" src="" alt="M1">
-                            Kyle Ma
+                        <a class="member-link" data-member-id="3" data-member-name="Eveay">
+                            <i class="uk-icon-user"></i> Eveay Ma
                         </a>
                     </li>
                     <li class="">
                         <a class="member-link" data-member-id="4" data-member-name="Yixian">
-                            <img class="uk-thumbnail" src="" alt="M1">
-                            Yixian Li
+                            <i class="uk-icon-user"></i> Yixian Li
+                        </a>
+                    </li>
+                    <li class="">
+                        <a class="member-link" data-member-id="5" data-member-name="Kyle">
+                            <i class="uk-icon-user"></i> Kyle Ma
+                        </a>
+                    </li>
+                    <li class="">
+                        <a class="member-link" data-member-id="6" data-member-name="Alex">
+                            <i class="uk-icon-user"></i> Alex Liu
                         </a>
                     </li>
                 </ul>
@@ -73,40 +84,52 @@
             </ul>-->
         </div>
 
-        <div class="uk-width-4-5">
+        <div class="uk-width-4-5 ">
 
             <div class="uk-placeholder">
-                 Tasks of <span id="member-name"></span>
-            </div>
-            <div class="tasks-list uk-placeholder">
-                <table class="uk-table uk-table-striped uk-table-condensed uk-table-hover">
+                <div class="table-caption">
+                    <h3 class="table-title"><b>Tasks of <span id="member-name"></span></b></h3>
+                </div>
+                <div class="table-gap"></div>
+                <div class="uk-overflow-container">
+                <table class="uk-table uk-table-striped uk-table-condensed uk-table-hover tasks-table" >
                     <!--<caption>All Tasks for last week</caption>-->
                     <thead>
                         <tr style="border:0px;">
-                            <th>Action</th>
-                            <th>Name</th>
-                            <th width="120px">Status</th>
-                            <th width="120px">Project</th>
-                            <th width="120px">Progress</th>
+                            <th style="width:60px;">Action</th>
+                            <th style="width:150px;">Name</th>
+                            <th style="width:65px;">Status</th>
+                            <th style="width:100px;">Project</th>
+                            <th style="width:110px;">Progress</th>
+                            <th style="width:150px;">ETA</th>
                             <th>Risk</th>
                         </tr>
                     </thead>
                     <tbody id="main-grid">
                         <tr class="uk-form creation-row" style="border:0px;">
                             <td>
-                                <input type="button" value="Save     " class="uk-button" id="save-task">
+                                <input type="button" value="Save" class="uk-button" id="save-task">
                             </td>
                             <td>
                                 <input placeholder="Task Name" id="new-task-name">
                             </td>
                             <td>
-                                <input placeholder="Status" id="new-task-status">
+                                <select id="new-task-status">
+                                    <option value="Green">Green</option>
+                                    <option value="Orange">Orange</option>
+                                    <option value="Red">Red</option>
+                                </select>
                             </td>
                             <td>
                                 <input placeholder="Project Name" id="new-task-project">
                             </td>
                             <td>
-                                <input placeholder="Progress" id="new-task-progress">
+                                <div class="progress-column" >
+                                <input style="width:80px;" type="range" value="0" id="new-task-progress" step="5">&nbsp;<h7> 0</h7>%
+                                </div>
+                            </td>
+                            <td>
+                                <input id="new-task-eta" type="date">
                             </td>
                             <td>
                                 <input placeholder="Risk" id="new-task-risk">
@@ -114,9 +137,9 @@
                         </tr>
                     </tbody>
                 </table>
+                </div>
             </div>
         </div>
     </div>
 </div>
-<div id="overlay" class="uk-modal" aria-hidden="true">
-</div>
+<div id="overlay" class="uk-modal" aria-hidden="true"></div>

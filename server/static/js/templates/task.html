@@ -1,11 +1,16 @@
 
 <tr>
     <td data-task-id='{{id}}'>
-        <input type='button' class='uk-button remove-task' value='Remove'>
+        <a class="uk-icon-edit task-row-action" data-task-id='{{id}}' data-task-name='{{name}}'></a>
+        <a class="uk-icon-trash task-row-action" data-task-id='{{id}}' data-task-name='{{name}}'></a>
     </td>
     <td>{{name}}</td>
-    <td>{{status}}</td>
+    <td style="color:{{status}}">
+        <i class="uk-icon-bell"></i>
+        {{status}}
+    </td>
     <td>{{project}}</td>
-    <td>{{progress}}</td>
-    <td>{{risk}}</td>
+    <td>{{progress}}%</td>
+    <td>{{eta}}</td>
+    <td title="{{risk}}" class="risk-column">{{risk}}</td>
 </tr>

@@ -1,18 +1,79 @@
 /*@import url("uikit.gradient.css");*/
 @import url(uikit.css);
 
+html, body {
+    height: 100%;
+}
 
 img.top-logo {
-    height: 98px;
+    border: 0px;
+    height: 88px;
     width: 100%;
 }
 
-.tasks-list {
+.content-area {
     height: 100%;
-    max-height: 450px;
-    overflow: auto; /*or overlay*/
+    min-height: 600px;
+}
+
+.tasks-list {
+    height: 70%;
+    min-height: 470px;
+}
+
+.uk-placeholder {
+    height: 100%;
+}
+
+.tasks-table {
+    table-layout: fixed;
+}
+
+.table-caption {
+    height: 52px;
+    background: #ebf7fd;
+    margin: -15px;
+    border-width: 0.5px;
+    border-color: #ebf0fd;
+    border-style: solid;
+}
+
+.table-title {
+    margin: 15px;
+}
+
+.table-gap {
+    height: 35px;
+}
+
+.task-row-action {
+    color: #444444;
+    padding-left: 6px;
+    padding-right: 6px;
 }
 
 .creation-row {
-    background: #AAAAAA!important;
+    background: #85D0F5!important;
+}
+
+.progress-column {
+    width: 100px;
+    display: flex;
+}
+
+.risk-column {
+    overflow:hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow:ellipsis;
+    -icab-text-overflow: ellipsis;
+    -khtml-text-overflow: ellipsis;
+    -moz-text-overflow: ellipsis;
+    -webkit-text-overflow: ellipsis;
+}
+
+
+body {
+    background: url(/static/images/illustration.png) no-repeat;
+    background-size: cover;
+    height: 100%;
 }

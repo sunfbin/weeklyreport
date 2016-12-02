@@ -37,14 +37,30 @@ def read_task(task_id):
 @app.route('/tasks', methods=['post'])
 def create_task():
     task = Task(request.values)
-    db.session.add(task)
-    db.session.commit()
+    try:
+        db.session.add(task)
+        db.session.commit()
+    except Exception as e:
+        code = 500
+        message = e.statement
+        if 'UNIQUE constraint failed' in e.message:
+            code = 409
+            message = 'Task name {0} already exist.'.format(task.name)
+        result = {
+            'success': False,
+            'status': code,
+            'message': message
+        }
+        response = make_response(json.dumps(result), code)
+        response.headers['Content-type'] = 'application/json'
+        return response
+
     result = {
         'success': True,
         'task': task.serialize()
     }
     response = make_response(json.dumps(result), 200)
-    response.set_cookie('username', 'the username')
+    # response.set_cookie('username', 'the username')
     response.headers['Content-type'] = 'application/json'
     return response
 

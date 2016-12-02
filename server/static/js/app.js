@@ -6,7 +6,7 @@
 
 define([
     './views/loginView',
-    './views/mainView',
+    './views/mainView'
 ], function(LoginView, MainView) {
     window.weeklyReport = new Backbone.Marionette.Application({
         region: 'body',

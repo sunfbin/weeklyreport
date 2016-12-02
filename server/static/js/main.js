@@ -319,6 +319,7 @@ require.config({
 
 define([
     'marionette',
+    'jqueryui',
     'backbone',
     'hogan',
     'uikit'

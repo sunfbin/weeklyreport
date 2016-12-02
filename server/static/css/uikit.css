@@ -2194,6 +2194,7 @@ html:not(.uk-touch) .uk-nav-offcanvas ul a:hover {
 }
 .uk-table thead th {
   vertical-align: bottom;
+  text-align: center;
 }
 .uk-table caption,
 .uk-table tfoot {

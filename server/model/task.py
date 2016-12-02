@@ -2,12 +2,13 @@ from server.model import db
 
 class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(128), unique=True, index=True)
+    name = db.Column(db.String(128))
     status = db.Column(db.String(128))
-    project = db.Column(db.String(128), index=True)
+    project = db.Column(db.String(128))
     progress = db.Column(db.Integer)
     description = db.Column(db.String(128))
     risk = db.Column(db.String(128))
+    eta = db.Column(db.String(32))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     week_id = db.Column(db.Integer, db.ForeignKey('week.id'))
 
@@ -25,6 +26,8 @@ class Task(db.Model):
             self.progress = options['progress']
         if 'risk' in options:
             self.risk = options['risk']
+        if 'eta' in options:
+            self.eta = options['eta']
         if 'userId' in options:
             self.user_id = options['userId']
         if 'weekId' in options:
@@ -41,6 +44,7 @@ class Task(db.Model):
             "description": self.description,
             "status": self.status,
             "risk": self.risk,
+            "eta": self.eta,
             "userId": self.user_id,
             "weekId": self.week_id
         }
