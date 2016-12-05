@@ -8,9 +8,9 @@ date_format = '%Y-%m-%d'
 
 @app.route('/weeks/init', methods=['post'])
 def generate_weeks():
-    count_num = 18
+    count_num = 8
     for i in range(count_num):
-        day = get_previous_report_day(i)
+        day = get_previous_report_day(i+1)
         week = Week(day)
         db.session.add(week)
     db.session.commit()
@@ -23,7 +23,8 @@ def generate_weeks():
 
 def get_previous_report_day(times):
     today = datetime.date.today()
-    previous_day = today - (datetime.timedelta(7 - today.weekday())) * times
+    report_day = app.config['REPORT_DAY']
+    previous_day = today - datetime.timedelta(7 - (today.weekday() - report_day)) * times
     return datetime.date.strftime(previous_day, date_format)
 
 
@@ -65,7 +66,7 @@ def update_week(week_id):
 def next_week():
     today = datetime.date.today()
     today = datetime.date.strftime(today, date_format)
-    week = Week.query.filter(Week.date>today).first()
+    week = Week.query.filter(Week.date >= today).first()
     if week is None:
         next_report_day = get_next_report_day()
         week = Week(next_report_day)
@@ -78,8 +79,9 @@ def next_week():
 
 def get_next_report_day():
     today = datetime.date.today()
-    if today.weekday() == app.config['REPORT_DAY']: #
+    report_day = app.config['REPORT_DAY']
+    if today.weekday() == report_day: #
         next_day = today
     else:
-        next_day = today + datetime.timedelta(7 - today.weekday())
+        next_day = today + datetime.timedelta(7 + report_day - today.weekday())
     return datetime.date.strftime(next_day, date_format)
