@@ -1,7 +1,9 @@
 .DS_Store
+.idea
 *.pyc
 /venv
 /server/database/
 /server/static/css/style.less
+/server/static/css/components
 /server/static/css/uikit.almost-flat.css
 /server/static/css/uikit.gradient.css
