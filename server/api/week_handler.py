@@ -2,6 +2,7 @@ from flask import make_response, jsonify, request
 import datetime
 from server import app
 from server.model import db
+from sqlalchemy import desc, asc
 from server.model.week import Week
 
 date_format = '%Y-%m-%d'
@@ -30,8 +31,12 @@ def get_previous_report_day(times):
 
 @app.route('/weeks', methods=['get'])
 def get_all_weeks():
-    weeks = Week.query.all()
-    response = make_response(jsonify([week.serialize() for week in weeks]), 200)
+    weeks = Week.query.order_by(desc(Week.date)).all()
+    result = {
+        "success": True,
+        "weeks": [week.serialize() for week in weeks]
+    }
+    response = make_response(jsonify(result), 200)
     # response.set_cookie('username', 'the username')
     response.headers['Content-type'] = 'application/json'
     return response

@@ -16,7 +16,11 @@ def get_tasks():
         user_id = filters['userId']
         week_id = filters['weekId']
         tasks = Task.query.filter_by(user_id=user_id, week_id=week_id)
-    response = make_response(jsonify([task.serialize() for task in tasks]), 200)
+    result = {
+        "success": True,
+        "tasks": [task.serialize() for task in tasks]
+    }
+    response = make_response(jsonify(result), 200)
     response.set_cookie('username', 'the username')
     response.headers['Content-type'] = 'application/json'
     return response
@@ -42,7 +46,7 @@ def create_task():
         db.session.commit()
     except Exception as e:
         code = 500
-        message = e.statement
+        message = e.message
         if 'UNIQUE constraint failed' in e.message:
             code = 409
             message = 'Task name {0} already exist.'.format(task.name)

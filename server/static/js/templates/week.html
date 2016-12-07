@@ -1,1 +1,7 @@
-<li> <a class="week-link" data-week-id="{{id}}">{{date}}</a></li>
+<ul class="uk-nav uk-nav-offcanvas uk-nav-parent-icon">
+    <li class="uk-nav-header">Week List</li>
+    <li class="uk-nav-divider"></li>
+    {{#items}}
+    <li> <a class="week-link" data-week-id="{{id}}">{{date}}</a></li>
+    {{/items}}
+</ul>

@@ -6,12 +6,13 @@
 
 define([], function() {
     var UserModel = Backbone.Model.extend({
-        defaults: {
+        attributes: {
             id: null,
             name: null,
             role: null,
             password: null,
             description: null,
+            oder: null,
             status: null // enable? disable
         }
     });

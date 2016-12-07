@@ -1,17 +1,17 @@
 /**
- * TaskCollection
+ * WeekCollection
  *
  * @author Fengbin
  */
 
 define([
-    './taskModel'
-], function(TaskModel) {
+    './weekModel'
+], function(WeekModel) {
     var TaskCollection = Backbone.Collection.extend({
-        model: TaskModel,
-        url: '/tasks',
+        model: WeekModel,
+        url: '/weeks',
         parse: function(data) {
-            return data;
+            return data.weeks;
         }
     });
 

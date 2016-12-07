@@ -9,4 +9,27 @@
 # create database
 #
 
+which pip>/dev/null
+if [ $? -ne 0 ]; then
+    which easy_install>/dev/null
+    if [ $? -ne 0 ]; then
+        echo "please install python and easy_install first"
+        exit 1
+    else
+        #install pip
+        sudo easy_install pip
+    fi 
+fi
+
+pip install virtualenv
+virtualenv venv
+cd venv
+
+source ./bin/activate
+pip install flask
+pip install flask_login
+pip install Flask-SQLAlchemy
+pip install mysql-python
+
+echo "===============DONE"
 

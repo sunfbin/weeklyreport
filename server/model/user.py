@@ -5,7 +5,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(128), unique=True, index=True)
     status = db.Column(db.String(128))
-    email = db.Column(db.Integer, unique=True, index=True)
+    email = db.Column(db.String(128), unique=True, index=True)
     password_hash = db.Column(db.String(128))
     role = db.Column(db.String(64))
     user_oder = db.Column(db.Integer)
@@ -46,7 +46,7 @@ class User(db.Model):
             "name": self.name,
             "status": self.status,
             "role": self.role,
-            "user_order": self.user_order,
+            "user_order": self.user_oder,
             "email": self.email,
         }
 

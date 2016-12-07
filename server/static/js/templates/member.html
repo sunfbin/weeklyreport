@@ -1,0 +1,11 @@
+<ul class="uk-nav uk-nav-side uk-nav-parent-icon">
+    <li class="uk-nav-header">Team Members</li>
+    <li class="uk-nav-divider"></li>
+    {{#items}}
+    <li>
+        <a class="member-link" data-member-id="{{id}}" data-member-name="{{name}}">
+            <i class="uk-icon-user"></i> {{name}}
+        </a>
+    </li>
+    {{/items}}
+</ul>

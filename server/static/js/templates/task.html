@@ -1,16 +1,65 @@
+<table class="uk-table uk-table-striped uk-table-condensed uk-table-hover tasks-table" >
+    <!--<caption>All Tasks for last week</caption>-->
+    <thead>
+        <tr style="border:0px;">
+            <th style="width:60px;">Action</th>
+            <th style="width:150px;">Name</th>
+            <th style="width:65px;">Status</th>
+            <th style="width:100px;">Project</th>
+            <th style="width:110px;">Progress</th>
+            <th style="width:150px;">ETA</th>
+            <th>Risk</th>
+        </tr>
+    </thead>
+    <tbody id="main-grid">
+        <tr class="uk-form creation-row" style="border:0px;">
+            <form>
+            <td>
+                <input type="button" value="Save" class="uk-button" id="save-task">
+            </td>
+            <td>
+                <input placeholder="Task Name" id="new-task-name">
+            </td>
+            <td>
+                <select id="new-task-status">
+                    <option value="Green">Green</option>
+                    <option value="Orange">Orange</option>
+                    <option value="Red">Red</option>
+                </select>
+            </td>
+            <td>
+                <input placeholder="Project Name" id="new-task-project">
+            </td>
+            <td>
+                <div class="progress-column" >
+                <input style="width:80px;" type="range" value="0" id="new-task-progress" step="5">&nbsp;<h7> 0</h7>%
+                </div>
+            </td>
+            <td>
+                <input id="new-task-eta" type="date">
+            </td>
+            <td>
+                <input placeholder="Risk" id="new-task-risk">
+            </td>
+                </form>
+        </tr>
+        {{#items}}
+        <tr>
+            <td data-task-id='{{id}}'>
+                <a class="uk-icon-edit task-row-action" data-task-id='{{id}}' data-task-name='{{name}}'></a>
+                <a class="uk-icon-trash task-row-action" data-task-id='{{id}}' data-task-name='{{name}}'></a>
+            </td>
+            <td>{{name}}</td>
+            <td style="color:{{status}}">
+                <i class="uk-icon-bell"></i>
+                {{status}}
+            </td>
+            <td>{{project}}</td>
+            <td>{{progress}}%</td>
+            <td>{{eta}}</td>
+            <td title="{{risk}}" class="risk-column">{{risk}}</td>
+        </tr>
+        {{/items}}
+    </tbody>
+</table>
 
-<tr>
-    <td data-task-id='{{id}}'>
-        <a class="uk-icon-edit task-row-action" data-task-id='{{id}}' data-task-name='{{name}}'></a>
-        <a class="uk-icon-trash task-row-action" data-task-id='{{id}}' data-task-name='{{name}}'></a>
-    </td>
-    <td>{{name}}</td>
-    <td style="color:{{status}}">
-        <i class="uk-icon-bell"></i>
-        {{status}}
-    </td>
-    <td>{{project}}</td>
-    <td>{{progress}}%</td>
-    <td>{{eta}}</td>
-    <td title="{{risk}}" class="risk-column">{{risk}}</td>
-</tr>

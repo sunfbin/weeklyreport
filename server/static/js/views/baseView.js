@@ -9,11 +9,6 @@ define([
 ], function(Syphon) {
     var BaseView = Backbone.Marionette.View.extend({
 
-        initialize: function(options) {
-//            this.UIKit = UIkit;
-            this.Syphon = Syphon;
-        },
-
         compileTemplate: function(template) {
             return Hogan.compile(template);
         },
@@ -27,8 +22,7 @@ define([
         },
 
         _removeElement: function() {
-            /* children could implement this if needed */
-            this.$el.html();
+            this.$el.remove();
         }
 
     });
