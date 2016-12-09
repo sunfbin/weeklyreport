@@ -1,34 +1,40 @@
 define([
     './baseView',
-    'text!../templates/task.html'
-], function(BaseView, TasksTemplate) {
-    var WeeksView = BaseView.extend({
+    './taskGridView',
+    './taskAddView',
+    './taskMixinView',
+    '../models/taskModel',
+    'text!../templates/tasksMain.html'
+], function(BaseView, TasksGridView, TaskAddView,
+            TaskMixinView, Task, TasksMainTemplate) {
+    var TasksMainView = BaseView.extend({
         events: {
-            'click #save-task' : 'saveTask',
-            'click .uk-icon-pencil.task-row-action' : 'modifyTask',
-            'click .uk-icon-trash.task-row-action' : 'removeTask',
+            'click #quick-add' : 'quickAddTask',
+            'click #add-task' : 'showAddTaskView',
             'change #new-task-progress' : 'showProgress',
         },
-        className: 'uk-overflow-container',
-        ui: {
-            'creation-form': '#main-grid>tr.uk-form'
+        className: 'uk-placeholder',
+        regions: {
+            'task-view': '#task-view'
+        },
+        triggers: { //?
+            'task:added': 'reloadTasks',
+        },
+        childViewEvents: {
+            'task:deleted': 'reloadTasks',
+            'task:edited': 'reloadTasks'
         },
         template: function(data) {
-            return Hogan.compile(TasksTemplate).render(data);
-        },
-        serializeCollection: function() {
-            return this.collection;
+            return Hogan.compile(TasksMainTemplate).render(data);
         },
         initialize: function(options) {
-            this.userId = options.userId;
-            this.nextWeekId = options.weekId;
+            _.extend(this, TaskMixinView);
         },
-        saveTask: function() {
-            if (!this.userId || !this.nextWeekId) {
+        quickAddTask: function() {
+            if (!this.userId || !this.weekId) {
                 console.log('please select user and date');
                 return false;
             }
-            var self = this;
 
             var taskName = this.$el.find('#new-task-name').val();
             var status = this.$el.find('#new-task-status').val();
@@ -36,7 +42,7 @@ define([
             var progress = this.$el.find('#new-task-progress').val();
             var risk = this.$el.find('#new-task-risk').val();
             var eta = this.$el.find('#new-task-eta').val();
-            var description = this.$el.find('#new-task-risk').val();
+            var description = this.$el.find('#new-task-description').val();
 
             if (_.isEmpty(taskName)) {
                 UIkit.modal.alert('Task Name could not be empty', {
@@ -46,92 +52,60 @@ define([
                 return false;
             }
 
-            var data = {
+            var taskModel = new Task({
                 name: taskName,
                 status: status,
-                project: project,
                 progress: progress,
                 description: description,
-                risk: risk,
                 eta: eta,
                 userId: this.userId,
-                weekId: this.nextWeekId
+                weekId: this.weekId
+            });
+            this.saveTask(taskModel);
+        },
+
+        reloadTasks: function(data) {
+            var self = this;
+            data = data || {
+                userId: this.userId,
+                userName: this.userName,
+                weekId: this.weekId
             };
+            if (!data.userId || !data.weekId) {
+                // no enough params
+                return false;
+            }
+            _.extend(this, data);
+
+            this.updateViewTitle(data.userName);
 
             $.ajax({
                 url: '/tasks',
-                method: 'POST',
+                method: 'get',
                 data: data,
                 success: function(response) {
-                    console.log('save task success');
-                    self.clearForm();
-                    self.triggerMethod('task:added');
+                    var options = _.extend(data, {collection: response.tasks})
+                    var tasksGridView = new TasksGridView(options);
+//                    self.getRegion('task-view').show(taskView);
+                    self.showChildView('task-view', tasksGridView);
                 },
                 error: function(response) {
-                    response = JSON.parse(response.responseText);
-                    if (response.status == 409) {
-                        UIkit.modal.alert(response.message, {
-                            'bgclose': true,
-                            'keyboard': true
-                        });
-                    } else {
-                        console.log(response)
-                    }
+                    self.notify('warning', 'Load task fail');
                 }
-            })
-        },
-
-        clearForm: function() {
-            this.$el.find('input[id*=new-task-name]').val('');
-            this.$el.find('input[id*=new-task-project]').val('');
-            this.$el.find('input[id*=new-task-risk]').val('');
-            this.$el.find('input[id*=new-task][type=hidden]').val('0');
-            this.$el.find("#new-task-status").val('Green');
-            var today = (new Date()).toISOString();
-            today = today.split("T")[0];
-            this.$el.find("#new-task-eta").val(today);
-        },
-
-
-        modifyTask: function(e) {
-            e.preventDefault();
-            var self = this;
-            var taskId = e.target.dataset.taskId;
-            var taskName = e.target.dataset.taskName;
-            console.log("Will modify task: "+ taskName);
-        },
-
-        removeTask: function(e) {
-            e.preventDefault();
-            var self = this;
-
-            var taskId = e.target.dataset.taskId;
-            var taskName = e.target.dataset.taskName;
-            console.log('task id is : '+ taskId);
-            var msg = 'Task <b>' + taskName + '</b> will be removed permanently.<br> Press Yes to continue';
-            var del_url = '/tasks/' + taskId;
-
-            var result = UIkit.modal.confirm(msg, function(){
-                console.log('task removed');
-                $.ajax({
-                    url: del_url,
-                    method: 'delete',
-                    success: function(response) {
-                        self.triggerMethod('task:deleted');
-                    },
-                    error: function(response) {
-                        console.log('delete task fail')
-                    }
-                });
             });
-
         },
 
-        showProgress: function(e) {
-            var value = e.target.value;
-            this.$el.find(e.target).next().text(value);
+        updateViewTitle: function(memberName) {
+            this.$el.find('#member-name').html(memberName);
+        },
+
+        showAddTaskView: function(e) {
+            var options = {parentView: this, userId: this.userId, weekId: this.weekId};
+            var taskAddView = new TaskAddView(options);
+            this._parentView().showChildView('overlay', taskAddView);
+            this._parentView().showModalOverlay();
         }
     });
 
-    return WeeksView;
+    return TasksMainView;
 })

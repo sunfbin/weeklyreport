@@ -1,0 +1,21 @@
+<table class="uk-table uk-table-striped uk-table-condensed uk-table-hover tasks-table" >
+    <tbody>
+        {{#items}}
+        <tr>
+            <td data-task-id='{{id}}' style="width:60px;">
+                <a class="uk-icon-edit task-row-action" data-task-id='{{id}}' data-task-name='{{name}}'></a>
+                <a class="uk-icon-trash task-row-action" data-task-id='{{id}}' data-task-name='{{name}}'></a>
+            </td>
+            <td style="width:180px;">{{name}}</td>
+            <td style="color:{{status}};width:70px;">
+                <i class="uk-icon-bell"></i>
+                {{status}}
+            </td>
+            <td style="width:130px;">{{description}}</td>
+            <td style="width:80px;">{{progress}}%</td>
+            <td style="width:120px;">{{eta}}</td>
+        </tr>
+        {{/items}}
+    </tbody>
+</table>
+

@@ -1,24 +1,29 @@
 
 <div class="uk-modal-dialog">
+    {{#closable}}
     <button type="button" class="uk-modal-close uk-close "></button>
-
+    {{/closable}}
     <div class="uk-modal-header">
         <h2>Login</h2>
     </div>
     <div class="notify-pane"></div>
 
     <form id="login_form" class="uk-form">
+        <div class="uk-form-row alert-row"></div>
         <div class="uk-form-row">
-            <span class="uk-form-label">User Name: </span>
+            <label class="uk-form-label">User Name: </label>
             <input value="" name="username"/>
         </div>
         <div class="uk-form-row">
-            <span class="uk-form-label">Password: </span>
+            <label class="uk-form-label">Password: </label>
             <input type="password" value="" name="password"/>
         </div>
     </form>
     <div class="uk-modal-footer uk-text-right">
-        <input type="button" id="login" value="OK" class="uk-button"/>
+        {{#closable}}
         <a id="cancel" class="uk-link">Close</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        {{/closable}}
+        <input type="button" id="login" value="OK" class="uk-button uk-button-medium"/>
     </div>
 </div>

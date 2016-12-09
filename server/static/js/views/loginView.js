@@ -6,46 +6,47 @@
 
 define([
     './baseView',
-    '../models/userModel',
     'text!../templates/login.html'
-], function(BaseView, UserModel, loginTemplate) {
+], function(BaseView, LoginTemplate) {
     var loginView = BaseView.extend({
-        model: new UserModel(),
         events: {
             'click #login': 'do_login',
+            'change input[name=username]': 'onNameChange',
             'click #cancel': 'cancel'
         },
-        render: function() {
-            var login_form = this.compileTemplate(loginTemplate).render({});
-
-//            $('#login').click($.proxy(this.do_login, this));
-            this.$el.html(login_form);
-            return this;
+        template: function(data) {
+            return Hogan.compile(LoginTemplate).render(data);
+        },
+        serializeModel: function() {
+            return this.model;
         },
 
         do_login: function(e){
             e.preventDefault();
-            var data = this.Syphon.serialize(this);
+
             var self = this;
-            console.dir(data);
-            var success = function(response) {
-                console.log('success');
-                if (response) { // auth success
-                    window.location.assign('/index')
-                } else {
-                    self.notify('error', 'Login Failed');
-                }
-            }
-            var failure = function(response) {
-                console.log('error');
-            }
+            var data = Backbone.Syphon.serialize(this);
             $.ajax({
                 url: '/login',
                 method: 'POST',
                 data: data,
-                success: success,
-                failure: failure
-            })
+                success: function(response) {
+                    console.log('success');
+                    if (response) { // auth success
+                        self.triggerMethod('login:succeed');
+                        UIkit.modal("#overlay").hide();
+                    } else {
+                        self.notify('danger', 'Login Failed');
+                    }
+                },
+                failure: function(response) {
+                    console.log('error');
+                }
+            });
+        },
+
+        onNameChange: function(e) {
+            this.$el.find('.alert-row').html('');
         },
 
         cancel: function(e) {

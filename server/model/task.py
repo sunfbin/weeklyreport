@@ -2,12 +2,12 @@ from server.model import db
 
 class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(128))
-    status = db.Column(db.String(128))
+    name = db.Column(db.String(1024))
+    status = db.Column(db.String(10))
     project = db.Column(db.String(128))
     progress = db.Column(db.Integer)
-    description = db.Column(db.String(128))
-    risk = db.Column(db.String(128))
+    description = db.Column(db.String(1024))
+    risk = db.Column(db.String(1024))
     eta = db.Column(db.String(32))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     week_id = db.Column(db.Integer, db.ForeignKey('week.id'))

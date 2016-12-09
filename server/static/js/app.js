@@ -24,8 +24,13 @@ define([
                 success: function(response){
                     console.log("check auth result:"+response);
                     if (!response) {
-                        var loginView = new LoginView()
-                        loginView.render();
+                        var model = {'closable': false};
+                        var loginView = new LoginView({model: model});
+                        mainView.showChildView('overlay', loginView);
+                        var opt = {'bgclose': false, 'keyboard': false, 'center': true};
+                        mainView.showModalOverlay(opt);
+                    } else {
+                        mainView.auth_succeed();
                     }
                 }
             });

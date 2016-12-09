@@ -17,12 +17,12 @@ img.top-logo {
 }
 
 .tasks-list {
-    height: 70%;
+    height: 75%;
     min-height: 470px;
 }
 
 .uk-placeholder {
-    height: 100%;
+    height: 96%;
 }
 
 .tasks-table {
@@ -30,7 +30,7 @@ img.top-logo {
 }
 
 .table-caption {
-    height: 52px;
+    height: 95px;
     background: #ebf7fd;
     margin: -15px;
     border-width: 0.5px;
@@ -42,8 +42,9 @@ img.top-logo {
     margin: 15px;
 }
 
-.table-gap {
-    height: 35px;
+.table-container {
+    padding-top: 25px;
+    height: 80%;
 }
 
 .task-row-action {
@@ -76,4 +77,22 @@ body {
     background: url(/static/images/illustration.png) no-repeat;
     background-size: cover;
     height: 100%;
+}
+
+label {
+    min-width: 120px;
+    display: inline-block;
+}
+
+.uk-form-textarea {
+    width: 480px;
+}
+
+.uk-input-name {
+    width: 100%;
+}
+
+.uk-overflow-container{
+    height: 100%;
+    margin-top: -30px;
 }

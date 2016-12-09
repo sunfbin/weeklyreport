@@ -1,0 +1,60 @@
+<div class="uk-modal-dialog">
+    <button type="button" class="uk-modal-close uk-close "></button>
+
+    <div class="uk-modal-header">
+        <h2>{{action}} Task {{task.name}}</h2>
+    </div>
+
+    <form id="task_form" class="uk-form">
+        <div class="uk-grid">
+            <div class="uk-form-row uk-width-1-1">
+                <div class="uk-alert uk-alert-success" data-uk-alert="">
+                    <a href="#" class="uk-alert-close uk-close"></a>
+                    <p>This is a success alert using an a element as close button.</p>
+                </div>
+            </div>
+            <div class="uk-form-row uk-width-1-1">
+                <input type="hidden" name="userId" value="{{}}">
+                <input type="hidden" value="{{}}" name="weekId">
+                <label class="uk-form-label" for="name">Name:</label>
+                <textarea class="uk-form-textarea" rows="2" id="name" name="name" maxlength=128></textarea>
+            </div>
+            <div class="uk-form-row uk-width-1-2">
+                <label class="uk-form-label" for="status">Status:</label>
+                <select id="status" name="status" >
+                    <option value="Green">Green</option>
+                    <option value="Orange">Orange</option>
+                    <option value="Red">Red</option>
+                </select>
+            </div>
+            <div class="uk-form-row uk-width-1-2">
+                <label class="uk-form-label" for="eta">ETA:</label>
+                <input type="date" id="eta" name="eta"/>
+            </div>
+
+            <div class="uk-form-row uk-width-1-1">
+                <label class="uk-form-label" for="description">Status Detail:</label>
+                <textarea class="uk-form-textarea" rows="2" id="description" name="description" maxlength=128></textarea>
+            </div>
+            <div class="uk-form-row uk-width-1-2">
+                <label class="uk-form-label" for="progress">Progress:</label>
+                <input type="range" id="progress" name="progress" step="5"/>
+            </div>
+            <div class="uk-form-row uk-width-1-2">
+                <label class="uk-form-label" for="project">Project:</label>
+                <input type="text" id="project" name="project"/>
+            </div>
+            <div class="uk-form-row uk-width-1-1">
+                <label class="uk-form-label" for="risk">Potential Risk:</label>
+                <textarea class="uk-form-textarea" rows="2" id="risk" name="risk" maxlength=128></textarea>
+            </div>
+        </div>
+
+    </form>
+    <div class="uk-modal-footer uk-text-right">
+        <input type="button" id="save-close" class="uk-button" value="Save & Close"/>
+        &nbsp;&nbsp;
+        &nbsp;&nbsp;
+        <input type="button" id="save" class="uk-button" value="Save"/>
+    </div>
+</div>

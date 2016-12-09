@@ -14,11 +14,19 @@ define([
         },
 
         notify: function(type, msg) {
-            var color = type == 'error' ? 'red' : 'yellow';
+            // type must be "success", "warning", "danger"
+            var template =
+                `
+                <div class="uk-alert uk-alert-<%= type %>" data-uk-alert="">
+                    <a href="#" class="uk-alert-close uk-close"></a>
+                    <p><%= msg %></p>
+                </div>
+                `
 
-            var html = _.template('<span style="color:<%- color %>"><%- msg %></span>');
-            html = html({'color': color, 'msg': msg});
-            this.$('.notify-pane').html(html);
+            var render = _.template(template);
+            html = render({'type': type, 'msg': msg});
+            this.$el.find('.alert-row').html(html);
+            var region = this.getRegion('alert-row');
         },
 
         _removeElement: function() {

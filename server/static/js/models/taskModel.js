@@ -5,17 +5,19 @@
  */
 
 define([], function() {
+    var today = (new Date()).toISOString();
+    today = today.split("T")[0];
     var TaskModel = Backbone.Model.extend({
-        attributes: {
-            id: null,
-            name: null,
-            project: null,
-            progress: null, // percent?
-            description: null,
-            status: null, // current status
-            eta: null, //
-            risk: null,
-            owner: null // user_id
+        defaults: {
+            name: "",
+            project: "",
+            progress: "", // percent?
+            description: "",
+            status: "Green", // current status
+            eta: today, //
+            risk: "",
+            weekId: "",
+            userId: "" // user_id
         }
     });
 
