@@ -9,15 +9,17 @@ class Task(db.Model):
     description = db.Column(db.String(1024))
     risk = db.Column(db.String(1024))
     eta = db.Column(db.String(32))
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    present_order = db.Column(db.Integer)
     week_id = db.Column(db.Integer, db.ForeignKey('week.id'))
-
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __init__(self, options):
         if 'id' in options:
             self.id = options['id']
         if 'name' in options:
             self.name = options['name']
+        if 'present_order' in options:
+            self.present_order = options['present_order']
         if 'status' in options:
             self.status = options['status']
         if 'project' in options:
@@ -39,6 +41,7 @@ class Task(db.Model):
         return {
             "id": self.id,
             "name": self.name,
+            "present_order": self.present_order,
             "project": self.project,
             "progress": self.progress,
             "description": self.description,

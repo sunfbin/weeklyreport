@@ -13,20 +13,17 @@ define([
             return Hogan.compile(template);
         },
 
-        notify: function(type, msg) {
-            // type must be "success", "warning", "danger"
-            var template =
-                `
-                <div class="uk-alert uk-alert-<%= type %>" data-uk-alert="">
-                    <a href="#" class="uk-alert-close uk-close"></a>
-                    <p><%= msg %></p>
-                </div>
-                `
-
-            var render = _.template(template);
-            html = render({'type': type, 'msg': msg});
-            this.$el.find('.alert-row').html(html);
-            var region = this.getRegion('alert-row');
+        notify: function(type, msg, timeout) {
+            if (type=='success') {
+                msg = "<i class='uk-icon-check'></i>" + msg;
+            }
+            timeout = timeout ? timeout : 1500;
+            UIkit.notify({
+                message : msg,
+                status  : type,//info, success, warning, danger
+                timeout : timeout,
+                pos     : 'top-center'
+            });
         },
 
         _removeElement: function() {

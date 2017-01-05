@@ -1,5 +1,6 @@
 [{
   "name": "Fengbin Sun",
+  "userId": "fengbin",
   "email": "fengbin@juniper.net",
   "role": "Dev",
   "status": "normal",
@@ -7,6 +8,7 @@
   "user_oder": 1
 }, {
   "name": "Daisy Li",
+  "userId": "daisy",
   "email": "daisyli@juniper.net",
   "role": "Dev",
   "status": "normal",
@@ -14,6 +16,7 @@
   "user_oder": 2
 }, {
   "name": "Yixian Li",
+  "userId": "yixian",
   "email": "yixianl@juniper.net",
   "role": "Dev",
   "status": "normal",
@@ -21,6 +24,7 @@
   "user_oder": 3
 }, {
   "name": "Eveay Ma",
+  "userId": "eveay",
   "email": "eveayma@juniper.net",
   "role": "Dev",
   "status": "normal",
@@ -28,6 +32,7 @@
   "user_oder": 4
 }, {
   "name": "Kyle Ma",
+  "userId": "kyle",
   "email": "kylema@juniper.net",
   "role": "QA",
   "status": "normal",
@@ -35,6 +40,7 @@
   "user_oder": 5
 }, {
   "name": "Alex Liu",
+  "userId": "alex",
   "email": "alexliu@juniper.net",
   "role": "QA",
   "status": "normal",
@@ -42,6 +48,7 @@
   "user_oder": 6
 }, {
   "name": "Yajing Liu",
+  "userId": "yajing",
   "email": "yajingliu@juniper.net",
   "role": "Manager",
   "status": "normal",

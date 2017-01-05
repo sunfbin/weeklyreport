@@ -1,0 +1,70 @@
+<div class="uk-slidenav-position presentation-view uk-modal-dialog" data-uk-slideshow="{animation: 'scale'}">
+    <button type="button" class="uk-modal-close uk-close "></button>
+    <ul class="uk-slideshow uk-slideshow-fullscreen ">
+        {{#users}}
+        <li>
+            <div class="uk-grid" data-uk-grid="{gutter: 20}" style="height:100%">
+                <div class="uk-width-1-5">
+                    <article class="uk-comment uk-comment-primary ">
+                        <header class="uk-comment-header">
+                            <img class="uk-comment-avatar presentation-user-avatar" src="/static/images/{{userId}}.jpg" alt="">
+                            <h4 class="uk-comment-title">{{name}}</h4>
+                            <ul class="uk-comment-meta uk-subnav uk-subnav-line">
+                                <li>{{role}}</li>
+                                <li>{{date}}</li>
+                            </ul>
+                        </header>
+                    </article>
+                    <!--<div class="uk-panel uk-panel-box uk-panel-box-primary">-->
+                        <!--<h3 class=""> Date:-->
+                        <!--<span class="" id="report-date" data-week-id=""> {{date}} </span></h3>-->
+                    <!--</div>-->
+                </div>
+                <div class="uk-width-4-5">
+                    <div class="uk-overflow-container presentation-tasks">
+                        {{#tasks}}
+                        <div class="uk-panel uk-panel-header uk-panel-box uk-panel-box-primary">
+                            <h4 class="uk-panel-title">{{name}}</h4>
+                            <!--<div class="uk-panel-badge uk-badge uk-badge-{{status}}">{{status}}</div>-->
+                            <div class="uk-grid ">
+                                <div class="uk-width-1-3">
+                                    <div class="uk-progress">
+                                        <div class="uk-progress-bar" style="width: {{progress}}%;background:{{status}}">
+                                            {{progress}}%
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="uk-width-1-3">
+                                    Project: {{project}}
+                                </div>
+                                <div class="uk-width-1-3">
+                                    ETA: {{eta}}
+                                </div>
+                                <div class="uk-width-1-1">
+                                    Current Progress: {{description}}
+                                </div>
+                                {{#risk}}
+                                <br>
+                                <div class="uk-width-1-1">
+                                    Potential Risk: {{risk}}
+                                </div>
+                                {{/risk}}
+                            </div>
+                        </div>
+                        <br>
+                        {{/tasks}}
+                    </div>
+                </div>
+            </div>
+        </li>
+        {{/users}}
+    </ul>
+    <a href="" class="uk-slidenav uk-slidenav-contrast uk-slidenav-previous" data-uk-slideshow-item="previous"></a>
+    <a href="" class="uk-slidenav uk-slidenav-contrast uk-slidenav-next" data-uk-slideshow-item="next"></a>
+    <ul class="uk-dotnav uk-dotnav-contrast uk-position-bottom uk-flex-center">
+        {{#users}}
+        <li data-uk-slideshow-item="{{index}}"><a href=""></a></li>
+        {{/users}}
+    </ul>
+
+</div>

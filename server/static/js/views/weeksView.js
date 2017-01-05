@@ -27,7 +27,6 @@ define([
             this.getUI('weeks').parent().removeClass('uk-active');
             this.$el.find(e.target.parentNode).addClass('uk-active');
             this.triggerMethod('week:selected', {'id': weekId, 'date': weekDate});
-//            this.selectMember();
             UIkit.offcanvas.hide();
         }
     });

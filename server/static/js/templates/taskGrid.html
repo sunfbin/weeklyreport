@@ -1,21 +1,32 @@
-<table class="uk-table uk-table-striped uk-table-condensed uk-table-hover tasks-table" >
+<table class="uk-table uk-table-hover uk-table-striped uk-table-condensed tasks-table" >
     <tbody>
         {{#items}}
-        <tr>
+        <tr class="task-row" data-task-id="{{id}}">
             <td data-task-id='{{id}}' style="width:60px;">
                 <a class="uk-icon-edit task-row-action" data-task-id='{{id}}' data-task-name='{{name}}'></a>
                 <a class="uk-icon-trash task-row-action" data-task-id='{{id}}' data-task-name='{{name}}'></a>
             </td>
-            <td style="width:180px;">{{name}}</td>
+            <td style="width:190px;" data-uk-tooltip title="{{name}}">{{name}}</td>
             <td style="color:{{status}};width:70px;">
                 <i class="uk-icon-bell"></i>
                 {{status}}
             </td>
-            <td style="width:130px;">{{description}}</td>
-            <td style="width:80px;">{{progress}}%</td>
-            <td style="width:120px;">{{eta}}</td>
+            <td style="width:190px;" data-uk-tooltip title="{{description}}">{{description}}</td>
+            <td style="width:70px;">
+                <div class="uk-progress">
+                    <div class="uk-progress-bar" style="width: {{progress}}%;background:{{status}}">
+                        {{progress}}%
+                    </div>
+                </div>
+            </td>
+            <td style="width:70px;">{{eta}}</td>
         </tr>
+        {{/items}}
+        {{^items}}
+        <br>
+        <div class="uk-alert uk-alert-success" data-uk-alert="">
+            <p>No tasks. Use the <a id="add-task" style="font:bold;">Add</a> button to add new task</p>
+        </div>
         {{/items}}
     </tbody>
 </table>
-

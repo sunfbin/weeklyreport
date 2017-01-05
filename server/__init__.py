@@ -1,13 +1,13 @@
 from flask import Flask
-
+import flask_login
 import config
 
 app = Flask(__name__)
 app.config.from_object(config)
 
-from server.model.user import User
-from server.model.week import Week
-from server.model.task import Task
+from server.model.User import User
+from server.model.Week import Week
+from server.model.Task import Task
 
 
 def init_users():
@@ -30,8 +30,8 @@ with app.app_context():
 
 
 
-# login_manager = flask_login.LoginManager()
-# login_manager.init_app(app)
+login_manager = flask_login.LoginManager()
+login_manager.init_app(app)
 
 
 import server.api.login_handler

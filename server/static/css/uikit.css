@@ -2194,7 +2194,7 @@ html:not(.uk-touch) .uk-nav-offcanvas ul a:hover {
 }
 .uk-table thead th {
   vertical-align: bottom;
-  text-align: center;
+  text-align: left;
 }
 .uk-table caption,
 .uk-table tfoot {
@@ -7347,7 +7347,7 @@ a.uk-thumbnail:focus {
 .uk-progress {
   box-sizing: border-box;
   height: 20px;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
   background: #f5f5f5;
   overflow: hidden;
   line-height: 20px;
@@ -7743,7 +7743,7 @@ a.uk-datepicker-table-muted {
 }
 .uk-slideshow-fullscreen,
 .uk-slideshow-fullscreen > li {
-  height: 100vh;
+  height: 77vh;
 }
 .uk-slideshow-fade-in {
   -webkit-animation: uk-fade 0.5s linear;

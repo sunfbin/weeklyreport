@@ -5,6 +5,12 @@ html, body {
     height: 100%;
 }
 
+body {
+    background: url(/static/images/illustration.png) no-repeat;
+    background-size: cover;
+    height: 100%;
+}
+
 img.top-logo {
     border: 0px;
     height: 88px;
@@ -17,7 +23,8 @@ img.top-logo {
 }
 
 .tasks-list {
-    height: 75%;
+    margin-top: 15px!important;
+    height: 78%;
     min-height: 470px;
 }
 
@@ -42,9 +49,24 @@ img.top-logo {
     margin: 15px;
 }
 
-.table-container {
+.task-container {
     padding-top: 25px;
-    height: 80%;
+    height: 85%;
+}
+
+.task-grid {
+    height: auto;
+    margin-top: -15px;
+}
+
+.task-detail {
+    margin-top: 10px;
+}
+
+.uk-overflow-container{
+    overflow: auto;
+    height: auto;
+    max-height: 180px;
 }
 
 .task-row-action {
@@ -53,46 +75,78 @@ img.top-logo {
     padding-right: 6px;
 }
 
+.row-selection {
+  background: #e4f7fd !important;
+  text-shadow: none;
+}
+
 .creation-row {
     background: #85D0F5!important;
 }
 
-.progress-column {
-    width: 100px;
-    display: flex;
-}
-
-.risk-column {
-    overflow:hidden;
-    text-overflow: ellipsis;
-    -o-text-overflow:ellipsis;
-    -icab-text-overflow: ellipsis;
-    -khtml-text-overflow: ellipsis;
-    -moz-text-overflow: ellipsis;
-    -webkit-text-overflow: ellipsis;
-}
-
-
-body {
-    background: url(/static/images/illustration.png) no-repeat;
-    background-size: cover;
-    height: 100%;
-}
-
 label {
-    min-width: 120px;
+    max-width: 120px;
     display: inline-block;
 }
 
-.uk-form-textarea {
-    width: 480px;
+.tasks-table td {
+    word-break:keep-all;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
 }
 
-.uk-input-name {
-    width: 100%;
+.uk-modal-dialog {
+    width: 700px;
 }
 
-.uk-overflow-container{
-    height: 100%;
-    margin-top: -30px;
+.uk-badge-Green {
+    background-color: green;
 }
+
+.uk-badge-Orange {
+    background-color: orange;
+}
+
+.uk-badge-Red {
+    background-color: red;
+}
+
+textarea {
+    max-width: 500px;
+    max-height: 120px;
+}
+
+textarea.uk-form-blank {
+    width: 680px;
+    resize: none;
+    color: #2d7091!important;
+}
+
+input.uk-form-blank {
+    color: #2d7091!important;
+}
+
+.presentation-view {
+    background: #aaddee;
+    width: 90%;
+}
+
+.presentation-user {
+    width: 17%;
+}
+
+.presentation-user-avatar {
+    width: 64px;
+}
+
+.presentation-tasks {
+    margin-right: 80px;
+    max-height: 100%;
+    font-size: large;
+}
+
+.presentation-tasks [class*=uk-width] {
+    margin-top: 5px;
+}
+

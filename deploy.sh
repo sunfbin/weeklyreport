@@ -30,6 +30,14 @@ pip install flask
 pip install flask_login
 pip install Flask-SQLAlchemy
 pip install mysql-python
+if [ $? -ne 0 ]; then
+    # assume it is Ubuntu system
+    apt-get install libmysqlclient-dev
+    pip install mysql-python
+fi
 
-echo "===============DONE"
+echo "Preparation Done. Now starting the app..."
 
+cd ..
+
+python weekly_report.py

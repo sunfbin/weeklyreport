@@ -10,6 +10,9 @@ require.config({
         'marionette': 'vendor/backbone.marionette/backbone.marionette',
         'jquery': 'vendor/jquery/jquery',
         'uikit': 'vendor/uikit/uikit',
+        'uikit.notify': 'vendor/uikit/components/notify',
+        'uikit.datepicker': 'vendor/uikit/components/datepicker',
+        'uikit.slideshow': 'vendor/uikit/components/slideshow',
         'underscore': 'vendor/backbone.marionette/underscore',
         'hogan': 'vendor/hogan.js/web/builds/2.0.0/hogan-2.0.0',
         'template': 'vendor/hogan.js/web/builds/2.0.0/template-2.0.0',
@@ -28,6 +31,18 @@ require.config({
         'uikit': {
             deps: ['jquery'],
             exports: 'UIKit'
+        },
+        'uikit.notify': {
+            deps: ['jquery', 'uikit'],
+            exports: 'UIkit.notify'
+        },
+        'uikit.datepicker': {
+            deps: ['jquery', 'uikit'],
+            exports: 'UIkit.datepicker'
+        },
+        'uikit.slideshow': {
+            deps: ['jquery', 'uikit'],
+            exports: 'UIkit.slideshow'
         },
         'underscore': {
             exports: '_'
@@ -68,7 +83,10 @@ require.config({
 define([
     'marionette',
     'hogan',
-    'uikit'
+    'uikit',
+    'uikit.notify',
+    'uikit.slideshow',
+    'uikit.datepicker'
 ], function (app) {
     require(['app'], function(app){
         app.start();

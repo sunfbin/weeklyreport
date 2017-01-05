@@ -2,22 +2,18 @@
     <button type="button" class="uk-modal-close uk-close "></button>
 
     <div class="uk-modal-header">
-        <h2>{{action}} Task {{task.name}}</h2>
+        <h2>{{action}} Task {{name}}</h2>
     </div>
 
-    <form id="task_form" class="uk-form">
+    <form id="task_form" class="uk-form uk-form-horizontal">
         <div class="uk-grid">
             <div class="uk-form-row uk-width-1-1">
-                <div class="uk-alert uk-alert-success" data-uk-alert="">
-                    <a href="#" class="uk-alert-close uk-close"></a>
-                    <p>This is a success alert using an a element as close button.</p>
-                </div>
-            </div>
-            <div class="uk-form-row uk-width-1-1">
-                <input type="hidden" name="userId" value="{{}}">
-                <input type="hidden" value="{{}}" name="weekId">
+                <input type="hidden" name="id" id="id"  value="{{id}}">
+                <input type="hidden" name="action" id="action"  value="{{action}}">
+                <input type="hidden" name="userId" id="userId"  value="{{userId}}">
+                <input type="hidden" name="weekId" id="weekId" value="{{weekId}}" >
                 <label class="uk-form-label" for="name">Name:</label>
-                <textarea class="uk-form-textarea" rows="2" id="name" name="name" maxlength=128></textarea>
+                <textarea class="uk-form-width-large" required id="name" name="name" maxlength=1024>{{name}}</textarea>
             </div>
             <div class="uk-form-row uk-width-1-2">
                 <label class="uk-form-label" for="status">Status:</label>
@@ -28,33 +24,43 @@
                 </select>
             </div>
             <div class="uk-form-row uk-width-1-2">
-                <label class="uk-form-label" for="eta">ETA:</label>
-                <input type="date" id="eta" name="eta"/>
+                <label class="uk-form-label" for="progress">Progress:</label>
+                <div style="display:float;margin-top:6px;">
+                <span>{{progress}}</span>%
+                <input type="range" id="progress" name="progress" step="5" value="{{progress}}"/>
+                </div>
             </div>
 
             <div class="uk-form-row uk-width-1-1">
-                <label class="uk-form-label" for="description">Status Detail:</label>
-                <textarea class="uk-form-textarea" rows="2" id="description" name="description" maxlength=128></textarea>
+                <label class="uk-form-label" for="description">Current Progress:</label>
+                <textarea class="uk-form-width-large" rows="2" id="description" name="description" maxlength=1024>{{description}}</textarea>
             </div>
+
             <div class="uk-form-row uk-width-1-2">
-                <label class="uk-form-label" for="progress">Progress:</label>
-                <input type="range" id="progress" name="progress" step="5"/>
+                <label class="uk-form-label" for="eta">ETA:</label>
+                <div class="uk-form-icon">
+                    <i class="uk-icon-calendar"></i>
+                    <input type="text" id="eta" name="eta" value="{{eta}}" data-uk-datepicker="{format:'YYYY-MM-DD',minDate:'{{eta}}'}">
+                </div>
             </div>
             <div class="uk-form-row uk-width-1-2">
                 <label class="uk-form-label" for="project">Project:</label>
-                <input type="text" id="project" name="project"/>
+                <input type="text" id="project" name="project" value="{{project}}" maxlength=128/>
             </div>
             <div class="uk-form-row uk-width-1-1">
                 <label class="uk-form-label" for="risk">Potential Risk:</label>
-                <textarea class="uk-form-textarea" rows="2" id="risk" name="risk" maxlength=128></textarea>
+                <textarea class="uk-form-width-large" rows="2" id="risk" name="risk" maxlength=1024>{{risk}}</textarea>
             </div>
         </div>
 
     </form>
     <div class="uk-modal-footer uk-text-right">
+        <input type="button" id="cancel" class="uk-button" value="Cancel"/>
+        &nbsp;&nbsp;
         <input type="button" id="save-close" class="uk-button" value="Save & Close"/>
         &nbsp;&nbsp;
-        &nbsp;&nbsp;
-        <input type="button" id="save" class="uk-button" value="Save"/>
+        {{^name}}
+        <input type="button" id="save" class="uk-button" value="Save & Add Next"/>
+        {{/name}}
     </div>
 </div>

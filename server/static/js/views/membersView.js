@@ -14,15 +14,24 @@ define([
             return Hogan.compile(UserTemplate).render(data);
         },
         serializeCollection: function() {
+            if (_.isArray(this.collection)) {
+                this.collection.forEach(function(user){
+                    user.fontColor = user.gender == 'female' ? 'coral' : 'black';
+                });
+            }
             return this.collection;
         },
         onRender: function() {
             this.getUI('members').first().trigger('click');
         },
-        onMemberClick: function(e) {
+        onMemberClick: function(e, refresh) {
             e.preventDefault();
-            var memberId = e.target.dataset.memberId;
-            var memberName = e.target.text;
+            var target = e.currentTarget;
+            if ($(target).parent().hasClass('uk-active') && !refresh) {
+                return false;
+            }
+            var memberId = target.dataset.memberId;
+            var memberName = target.text;
 
             this.getUI('members').parent().removeClass('uk-active');
             this.$el.find(e.target.parentNode).addClass('uk-active');

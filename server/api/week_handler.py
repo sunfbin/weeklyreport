@@ -3,7 +3,7 @@ import datetime
 from server import app
 from server.model import db
 from sqlalchemy import desc, asc
-from server.model.week import Week
+from server.model.Week import Week
 
 date_format = '%Y-%m-%d'
 

@@ -1,0 +1,40 @@
+<div class="table-caption">
+    <h3 class="table-title">Tasks of <span id="member-name">Member</span></h3>
+    <nav class="uk-navbar">
+        <div class="uk-navbar-flip">
+            <ul class="uk-navbar-nav uk-hidden-small">
+                <li><a id="add-task">Add</a></li>
+                <li><a id="do-present">Present</a></li>
+                <li class="uk-parent" data-uk-dropdown="" aria-haspopup="true" aria-expanded="false">
+                    <a href="#" class="uk-navbar-nav-subtitle">More<div>Advanced</div></a>
+                    <div class="uk-dropdown uk-dropdown-navbar uk-dropdown-bottom" aria-hidden="true" tabindex="" style="top: 40px; left: 0px;">
+                        <ul class="uk-nav uk-nav-navbar">
+                            <li><a id="export">Export</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<div class="task-container">
+    <!-- <div class="uk-alert uk-alert-success" data-uk-alert="">
+        <a href="#" class="uk-alert-close uk-close"></a>
+        <p>This is a success alert using an a element as close button.</p>
+    </div> -->
+    <table class="uk-table uk-table-striped uk-table-condensed uk-table-hover tasks-table" >
+        <thead>
+            <tr style="border:0px;">
+                <th style="width:60px;">Action</th>
+                <th style="width:190px;">Task Name</th>
+                <th style="width:60px;">Status</th>
+                <th style="width:180px;">Current Progress</th>
+                <th style="width:70px;"></th>
+                <th style="width:70px;">ETA</th>
+            </tr>
+        </thead>
+    </table>
+    <div id="task-grid" class="task-grid"></div>
+    <div id="task-detail" class="task-detail" data-uk-sticky></div>
+
+</div>

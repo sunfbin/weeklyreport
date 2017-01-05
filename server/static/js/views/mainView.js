@@ -10,11 +10,10 @@ define([
     './settingView',
     './weeksView',
     './membersView',
-    './tasksView',
-
+    './mainContentView',
     'text!../templates/main.html'
 ], function(BaseView, LoginView, SettingsView, WeeksView,
-            MembersView, TasksMainView,
+            MembersView, MainContentView,
              IndexTemplate, taskTemplate) {
     var MainView = BaseView.extend({
         events: {
@@ -33,7 +32,7 @@ define([
             'week-list': '#primary_nav',
             'overlay': '#overlay',
             'member-list': '#members-view',
-            'main-grid': '#main-grid'
+            'main-content': '#main-content'
         },
         template: function() {
             return Hogan.compile(IndexTemplate).render();
@@ -51,8 +50,8 @@ define([
                 });
             });
 
-            var mainGridView = new TasksMainView();
-            self.showChildView('main-grid', mainGridView);
+            var mainContentView = new MainContentView();
+            self.showChildView('main-content', mainContentView);
 
 
         },
@@ -72,7 +71,7 @@ define([
                 });
             };
             $.when(getNextWeek()).done(function(nextWeek, message){
-                self.date = nextWeek.date;
+                self.weekDate = nextWeek.date;
                 self.weekId = nextWeek.id;
                 self.loadWeeks();
                 self.loadMembers();
@@ -82,12 +81,13 @@ define([
 
         onWeekSelected: function(week) {
             this.weekId = week.id;
+            this.weekDate = week.date;
             this.$el.find('#report-date').html(week.date);
             this.$el.find('#report-date')[0].dataset.weekId = week.id;
 
             var memberView = this.getChildView('member-list');
             if (memberView) {
-                memberView.getUI('members').parents('ul').find('li.uk-active>a').trigger('click');
+                memberView.getUI('members').parents('ul').find('li.uk-active>a').trigger('click', true);
             }
         },
 
@@ -121,23 +121,14 @@ define([
             });
         },
 
-        showModalOverlay: function(opt) {
-            _.extend(UIkit.modal('#overlay').options, opt);
-            UIkit.modal('#overlay').show();
-        },
-
         logout: function() {
-            console.log('click on logout')
-
-            this.showChildView('overlay', new LoginView({model: {closable: true}}));
-            this.showModalOverlay({'bgclose': false, 'keyboard': false, 'center': true});
-
+            var loggingView = new LoginView({model: {closable: true}});
+            this.showOverlay(loggingView);
         },
 
         config: function() {
             var settingView = new SettingsView();
-            this.showChildView('overlay', settingView);
-            this.showModalOverlay({'bgclose': false, 'keyboard': false, 'center': true});
+            this.showOverlay(settingView);
         },
 
         loadMemberTasks: function(member) {
@@ -146,10 +137,19 @@ define([
 
             var data = {
                 userId: this.userId,
-                userName: member.name,
+                userName: member.name.trim(),
+                weekDate: this.weekDate,
                 weekId: this.weekId
             };
-            this.getChildView('main-grid').reloadTasks(data);
+            this.getChildView('main-content').reloadTasks(data);
+        },
+
+        showOverlay: function(view, options) {
+            var opts = {'bgclose': false, 'keyboard': false, 'center': true};
+            opts = options || opts;
+            this.showChildView('overlay', view);
+            _.extend(UIkit.modal('#overlay').options, opts);
+            UIkit.modal('#overlay').show();
         }
     });
     return MainView;

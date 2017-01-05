@@ -2,7 +2,7 @@ from flask import make_response, jsonify, request
 import json
 from server import app
 from server.model import db
-from server.model.user import User
+from server.model.User import User
 
 
 @app.route('/users')
@@ -56,9 +56,18 @@ def get_user(user_id):
     return response
 
 
+@app.route('/users/tasks')
+def get_present_users_tasks():
+    if len(request.values) > 0:
+        # status = request.values['status']
+        weekId = request.values['weekId']
+    users = User.query.filter(User.role<>'manager').all()
 
-
-
-
-def build_filters(filters):
-    return filters
+    for user in users:
+        user.tasks = user.tasks.filter_by(week_id=weekId).all()
+    result = {
+        'users': [user.serialize() for user in users]
+    }
+    response = make_response(jsonify(result), 200)
+    response.headers['Content-type'] = 'application/json'
+    return response
