@@ -56,8 +56,10 @@ define([
 
         },
 
-        auth_succeed: function() {
+        auth_succeed: function(user) {
             var self = this;
+            this.loginUser = user;
+            this.$el.find('#loginUser span').text(this.loginUser.name);
             var getNextWeek = function() {
                 return $.ajax({
                     url: '/weeks/next',
@@ -71,19 +73,16 @@ define([
                 });
             };
             $.when(getNextWeek()).done(function(nextWeek, message){
-                self.weekDate = nextWeek.date;
-                self.weekId = nextWeek.id;
+                self.selectedWeek = nextWeek;
                 self.loadWeeks();
                 self.loadMembers();
-                self.$el.find("#new-task-eta").val(self.date);
             });
         },
 
         onWeekSelected: function(week) {
-            this.weekId = week.id;
-            this.weekDate = week.date;
-            this.$el.find('#report-date').html(week.date);
-            this.$el.find('#report-date')[0].dataset.weekId = week.id;
+            this.selectedWeek = week;
+            this.$el.find('#report-date').html(this.selectedWeek.date);
+            this.$el.find('#report-date')[0].dataset.weekId = this.selectedWeek.id;
 
             var memberView = this.getChildView('member-list');
             if (memberView) {
@@ -122,8 +121,18 @@ define([
         },
 
         logout: function() {
-            var loggingView = new LoginView({model: {closable: true}});
-            this.showOverlay(loggingView);
+            $.ajax({
+                url: '/logout',
+                method: 'post',
+                success: function(response) {
+                    location.reload();
+                },
+                error: function(response) {
+                    console.log(response);
+                }
+            });
+//            var loggingView = new LoginView({model: {closable: true}});
+//            this.showOverlay(loggingView);
         },
 
         config: function() {
@@ -132,16 +141,15 @@ define([
         },
 
         loadMemberTasks: function(member) {
-
-            this.userId = member.id;
-
-            var data = {
-                userId: this.userId,
-                userName: member.name.trim(),
-                weekDate: this.weekDate,
-                weekId: this.weekId
+            var opts = {
+                selectedUser: {
+                    id: member.id,
+                    name: member.name.trim()
+                },
+                selectedWeek: this.selectedWeek,
+                loginUser : this.loginUser
             };
-            this.getChildView('main-content').reloadTasks(data);
+            this.getChildView('main-content').reloadTasks(opts);
         },
 
         showOverlay: function(view, options) {

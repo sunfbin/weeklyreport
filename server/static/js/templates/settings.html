@@ -7,24 +7,33 @@
     </div>
 
     <div class="notify-pane"></div>
-    <form id="login_form" class="uk-form">
-        <div class="uk-form-row">
-            <span class="uk-form-label">Week Starts at: </span>
-            <input value="" name="startingDay"/>
-        </div>
-        <div class="uk-form-row">
-            <span class="uk-form-label">Member Status: Disable someone</span>
-        </div>
-        <div class="uk-form-row">
-            <span class="uk-form-label">Add new Member?</span>
-        </div>
-        <div class="uk-form-row">
-            <span class="uk-form-label">Edit current login user info</span>
-        </div>
-        <div class="uk-form-row">
-            <span class="uk-form-label">change password</span>
-        </div>
-    </form>
+    <div class="tab-body-1">
+        <form class="uk-form uk-form-horizontal">
+            <div class="uk-form-row">
+                <label class="uk-form-label">Old Password: </label>
+                <input value="" name="old_pwd"/>
+            </div>
+            <div class="uk-form-row">
+                <label class="uk-form-label">New Password: </label>
+                <input value="" name="new_pwd"/>
+            </div>
+            <div class="uk-form-row">
+                <label class="uk-form-label">Repeat Password: </label>
+                <input value="" id="repeat_pwd" name="repeat_pwd"/>
+            </div>
+            <div class="uk-form-row">
+                <input type="submit" name="Submit"/>
+            </div>
+        </form>
+    </div>
+    <div class="tab-body-2">
+        <form class="uk-form uk-form-horizontal">
+            <div class="uk-form-row">
+                <span class="uk-form-label">Week Starts at: </span>
+                <input value="" name="startingDay"/>
+            </div>
+        </form>
+    </div>
     <div class="uk-modal-footer uk-text-right">
         <a href="" id="cancel" class="uk-link">Cancel</a>
         &nbsp;&nbsp;

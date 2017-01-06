@@ -34,32 +34,33 @@ define([
          * task reload event could be triggered when user change, week change
          * also it could be triggered when task added, removed, or updated
          */
-        reloadTasks: function(data) {
+        reloadTasks: function(options) {
             var self = this;
 
             this.detachChildView('task-detail-view');
-            data = data || {
-                userId: this.userId,
-                userName: this.userName,
-                weekDate: this.weekDate,
-                weekId: this.weekId
+            options = options || {
+                selectedUser: this.selectedUser,
+                selectedWeek: this.selectedWeek,
+                loginUser: this.loginUser
             };
-            if (!data.userId || !data.weekId) {
+            if (!options.loginUser || !options.selectedUser || !options.selectedWeek) {
                 // no enough params
                 return false;
             }
-            _.extend(this, data);
+            _.extend(this, options);
 
             // update view title with member name
-            this.$el.find('#member-name').html(data.userName);
+            this.$el.find('#member-name').html(options.selectedUser.name);
 
             $.ajax({
                 url: '/tasks',
                 method: 'get',
-                data: data,
+                data: {
+                    userId: options.selectedUser.id,
+                    weekId: options.selectedWeek.id
+                },
                 success: function(response) {
-                    var options = _.extend(data, {collection: response.tasks})
-                    var tasksGridView = new TasksGridView(options);
+                    var tasksGridView = new TasksGridView({collection: response.tasks});
 //                    self.getRegion('task-view').show(taskView);
                     self.showChildView('task-grid-view', tasksGridView);
                 },
@@ -72,8 +73,8 @@ define([
         onAddTask: function(e) {
             e.preventDefault();
             var task = {
-                userId: this.userId,
-                weekId: this.weekId,
+                userId: this.loginUser.id,
+                weekId: this.selectedWeek.id,
                 eta: this.weekDate,
                 progress: 0,
                 action: 'Add'
@@ -114,7 +115,7 @@ define([
                     method: 'get',
                     data: {
                         status: 'normal',
-                        weekId: self.weekId
+                        weekId: self.selectedWeek.id
                     }
                 });
             };
@@ -151,40 +152,8 @@ define([
                     } else {
                         scope.find('.uk-slidenav-previous').hide();
                     }
-                    $('.presentation-view').on('keyup', self.presentationScroll);
                 });
             })
-        },
-
-        presentationScroll: function(e) {
-            console.log(e)
-            var scope = UIkit.slideshow('[data-uk-slideshow]');
-            if (e.keyCode == 37) {
-                //previous
-                e.preventDefault();
-                e.stopPropagation();
-                if (scope.slides[scope.current - 1]) {
-                    scope.previous();
-                }
-            } else if(e.keyCode == 39) { // next
-                e.preventDefault();
-                e.stopPropagation();
-                if (scope.slides[scope.current - 1]) {
-                    scope.next();
-                }
-            } else {
-            }
-        },
-
-        getPresentTasks: function() {
-            return $.ajax({
-                url: '/users/tasks',
-                method: 'get',
-                data: {
-                    status: 'normal',
-                    weekId:this.weekId
-                }
-            });
         },
 
         exportTasks: function(e) {

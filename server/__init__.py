@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, g
 import flask_login
 import config
 
@@ -33,6 +33,13 @@ with app.app_context():
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
 
+@app.before_request
+def before_request():
+    g.user = flask_login.current_user
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 import server.api.login_handler
 import server.api.task_handler

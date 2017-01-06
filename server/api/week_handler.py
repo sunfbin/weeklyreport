@@ -1,4 +1,5 @@
 from flask import make_response, jsonify, request
+from flask_login import login_required
 import datetime
 from server import app
 from server.model import db
@@ -8,6 +9,7 @@ from server.model.Week import Week
 date_format = '%Y-%m-%d'
 
 @app.route('/weeks/init', methods=['post'])
+@login_required
 def generate_weeks():
     count_num = 8
     for i in range(count_num):
@@ -30,6 +32,7 @@ def get_previous_report_day(times):
 
 
 @app.route('/weeks', methods=['get'])
+@login_required
 def get_all_weeks():
     weeks = Week.query.order_by(desc(Week.date)).all()
     result = {
@@ -43,6 +46,7 @@ def get_all_weeks():
 
 
 @app.route('/weeks', methods=['post'])
+@login_required
 def save_week():
     week_date = request.values['date']
     week = Week(week_date)
@@ -56,6 +60,7 @@ def save_week():
 
 
 @app.route('/weeks/<week_id>', methods=['put'])
+@login_required
 def update_week(week_id):
     # status could be skipped [skip], holiday[] or normal [active]
     week = Week.query.filter_by(id=week_id).first()
@@ -68,6 +73,7 @@ def update_week(week_id):
 
 
 @app.route('/weeks/next', methods=['get'])
+@login_required
 def next_week():
     today = datetime.date.today()
     today = datetime.date.strftime(today, date_format)

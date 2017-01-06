@@ -1,6 +1,5 @@
-import json
-
-from flask import make_response, jsonify, request
+from flask_login import login_required
+from flask import make_response, jsonify, request, send_from_directory
 
 from server.model import db
 from server import app
@@ -8,6 +7,7 @@ from server.model.Task import Task
 
 
 @app.route('/tasks', methods=['get'])
+@login_required
 def get_tasks():
     filters = request.values
     if filters is None:
@@ -53,7 +53,7 @@ def create_task():
         'success': True,
         'task': task.serialize()
     }
-    response = make_response(json.dumps(result), 200)
+    response = make_response(jsonify(result), 200)
     response.headers['Content-type'] = 'application/json'
     return response
 
@@ -64,7 +64,7 @@ def delete_task(task_id):
     db.session.delete(task)
     db.session.commit()
     result = {'success': True}
-    response = make_response(json.dumps(result), 200)
+    response = make_response(jsonify(result), 200)
     response.headers['Content-type'] = 'application/json'
     return response
 
@@ -83,26 +83,16 @@ def update_task(task_id):
     db.session.commit()
 
     result = {'success': True}
-    response = make_response(json.dumps(result), 200)
-    response.headers['Content-type'] = 'application/json'
-    return response
-
-@app.route('/tasks/present')
-def get_present_tasks():
-    if len(request.values) > 0:
-        status = request.values['status']
-        weekId = request.values['weekId']
-
-    # result = Task.query.filter_by(week_id=weekId).join('owner').filter_by(status=status).all()
-    result = Task.query.filter_by(week_id=weekId).all()
-    a = []
-    for task in result:
-        a.append(task.owner.serialize())
-    user = list(a)
-    result = {
-        'users': [user.serialize() for user in result]
-    }
     response = make_response(jsonify(result), 200)
-    # response.set_cookie('username', user.name)
     response.headers['Content-type'] = 'application/json'
     return response
+
+
+@app.route('/tasks/export')
+def export_tasks():
+    # zero  : clear the specific directory
+    # first : query the tasks list
+    # second: generate excel file
+    # third: save it in some specific directory
+    # forth: send it to http response
+    return send_from_directory(directory='database', filename='users.json')

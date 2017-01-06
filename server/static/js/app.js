@@ -23,7 +23,7 @@ define([
                 method: 'POST',
                 success: function(response){
                     console.log("check auth result:"+response);
-                    if (!response) {
+                    if (!response.is_auth) {
                         var options = {
                             model: {
                                 'closable': false
@@ -32,7 +32,7 @@ define([
                         var loginView = new LoginView(options);
                         mainView.showOverlay(loginView);
                     } else {
-                        mainView.auth_succeed();
+                        mainView.auth_succeed(response.user);
                     }
                 }
             });
