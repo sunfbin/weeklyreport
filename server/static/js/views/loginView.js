@@ -20,7 +20,9 @@ define([
         serializeModel: function() {
             return this.model;
         },
-
+        onAttach: function() {
+            this.$el.find('input:first').focus();
+        },
         do_login: function(e){
             e.preventDefault();
 
@@ -35,17 +37,16 @@ define([
                 method: 'POST',
                 data: data,
                 success: function(response) {
-                    console.log('success');
-                    if (response.is_auth) { // auth success
+                    if (response.is_auth) {
                         self.triggerMethod('login:succeed', response.user);
-                        // set current user?
                         UIkit.modal("#overlay").hide();
                     } else {
-                        self.notify('danger', 'Login Failed', 0);
+                        self.notify('danger', 'Login Failed. '+response.msg, 0);
                     }
                 },
-                failure: function(response) {
-                    console.log('error');
+                error: function(response) {
+                    var result = JSON.parse(response.responseText);
+                    self.notify('danger', 'Login Failed. '+result.msg);
                 }
             });
         },

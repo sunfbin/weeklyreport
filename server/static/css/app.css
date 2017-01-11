@@ -130,6 +130,7 @@ input.uk-form-blank {
 .presentation-view {
     background: #aaddee;
     width: 90%;
+    margin: 50px;
 }
 
 .presentation-user {
@@ -150,3 +151,8 @@ input.uk-form-blank {
     margin-top: 5px;
 }
 
+.link-disabled {
+    color: #999999!important;
+    cursor: text;
+    background: none;
+}

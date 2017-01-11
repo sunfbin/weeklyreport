@@ -21,9 +21,15 @@ define([
         serializeCollection: function() {
             return this.collection;
         },
+        onRender: function(){
+            this.$el.focus();//??
+        },
         onKeyup: function(e) {
+            console.log(e.keyCode)
             var scope = UIkit.slideshow('[data-uk-slideshow]');
-            if (e.keyCode == 37) {
+            if (e.keyCode == 27) {
+                UIkit.modal('#overlay').hide();
+            } else if (e.keyCode == 37) {
                 //previous
                 e.preventDefault();
                 e.stopPropagation();
@@ -33,7 +39,7 @@ define([
             } else if(e.keyCode == 39) { // next
                 e.preventDefault();
                 e.stopPropagation();
-                if (scope.slides[scope.current - 1]) {
+                if (scope.slides[scope.current + 1]) {
                     scope.next();
                 }
             }

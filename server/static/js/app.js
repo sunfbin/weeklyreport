@@ -12,7 +12,6 @@ define([
         region: 'body',
         onStart: function() {
             var self = this;
-            console.log("on start app");
             Backbone.history.start();
 
             var mainView = new MainView();
@@ -22,7 +21,6 @@ define([
                 url: '/is_authenticated',
                 method: 'POST',
                 success: function(response){
-                    console.log("check auth result:"+response);
                     if (!response.is_auth) {
                         var options = {
                             model: {

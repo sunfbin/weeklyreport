@@ -29,7 +29,6 @@ with app.app_context():
         init_users()
 
 
-
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
 

@@ -48,8 +48,8 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return 'Model class User %r ' % self.name
 
-    def serialize(self):
-        return {
+    def serialize(self, deep=False):
+        result = {
             "id": self.id,
             "userId": self.user_id,
             "name": self.name,
@@ -58,6 +58,8 @@ class User(db.Model, UserMixin):
             "gender": self.gender,
             "user_order": self.user_oder,
             "email": self.email,
-            "tasks": [task.serialize() for task in self.tasks]
-        }
 
+        }
+        if (deep):
+            result['tasks'] = [task.serialize() for task in self.tasks]
+        return result

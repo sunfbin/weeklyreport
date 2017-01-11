@@ -19,8 +19,6 @@ def generate_weeks():
     db.session.commit()
     result = {'success': True}
     response = make_response(jsonify(result), 200)
-    # response.set_cookie('username', 'the username')
-    response.headers['Content-type'] = 'application/json'
     return response
 
 
@@ -40,8 +38,6 @@ def get_all_weeks():
         "weeks": [week.serialize() for week in weeks]
     }
     response = make_response(jsonify(result), 200)
-    # response.set_cookie('username', 'the username')
-    response.headers['Content-type'] = 'application/json'
     return response
 
 
@@ -54,8 +50,6 @@ def save_week():
     db.session.commit()
 
     response = make_response(jsonify({'week': week.serialize()}), 200)
-    # response.set_cookie('username', 'the username')
-    response.headers['Content-type'] = 'application/json'
     return response
 
 
@@ -68,7 +62,6 @@ def update_week(week_id):
     week.status = status
     db.session.commit()
     response = make_response(jsonify(week), 200)
-    response.headers['Content-type'] = 'application/json'
     return response
 
 
@@ -84,7 +77,6 @@ def next_week():
         db.session.add(week)
         db.session.commit()
     response = make_response(jsonify(week.serialize()), 200)
-    response.headers['Content-type'] = 'application/json'
     return response
 
 

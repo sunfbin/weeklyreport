@@ -9,7 +9,6 @@ define([
         ui: {
             'members': '.member-link'
         },
-//        className: 'uk-panel uk-panel-box',
         template: function(data) {
             return Hogan.compile(UserTemplate).render(data);
         },
@@ -22,7 +21,21 @@ define([
             return this.collection;
         },
         onRender: function() {
-            this.getUI('members').first().trigger('click');
+            var loginUser = this.options.loginUser;
+            var members = this.getUI('members');
+            var found = false;
+            if (loginUser) {
+                for (var i=0;i<members.length;i++) {
+                    if (members[i].dataset.memberId == loginUser.id) {
+                        $(members[i]).trigger('click');
+                        found = true;
+                        break;
+                    }
+                }
+            }
+            if (!found) {
+                this.getUI('members').first().trigger('click');
+            }
         },
         onMemberClick: function(e, refresh) {
             e.preventDefault();

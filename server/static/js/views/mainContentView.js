@@ -60,7 +60,11 @@ define([
                     weekId: options.selectedWeek.id
                 },
                 success: function(response) {
-                    var tasksGridView = new TasksGridView({collection: response.tasks});
+                    var opts = {
+                        collection: response.tasks,
+                        editable: self.selectedUser.id == self.loginUser.id
+                    }
+                    var tasksGridView = new TasksGridView(opts);
 //                    self.getRegion('task-view').show(taskView);
                     self.showChildView('task-grid-view', tasksGridView);
                 },
@@ -72,6 +76,9 @@ define([
 
         onAddTask: function(e) {
             e.preventDefault();
+            if ($(e.currentTarget).parent().hasClass('uk-disabled')) {
+                return false;
+            }
             var task = {
                 userId: this.loginUser.id,
                 weekId: this.selectedWeek.id,
@@ -141,6 +148,8 @@ define([
                 UIkit.slideshow('[data-uk-slideshow]').on('show.uk.slideshow', function(e, current, next){
                     // do not scroll infinitely.
                     var scope = UIkit.slideshow('[data-uk-slideshow]');
+                    console.log('show')
+//                    $('.uk-slidenav-next').focus();
                     var current = scope.current;
                     if (scope.slides[current + 1]) {
                         scope.find('.uk-slidenav-next').show();

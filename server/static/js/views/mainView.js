@@ -11,13 +11,14 @@ define([
     './weeksView',
     './membersView',
     './mainContentView',
+    './passwordView',
     'text!../templates/main.html'
 ], function(BaseView, LoginView, SettingsView, WeeksView,
-            MembersView, MainContentView,
-             IndexTemplate, taskTemplate) {
+            MembersView, MainContentView, PasswordView, IndexTemplate) {
     var MainView = BaseView.extend({
         events: {
             'click #logout' : 'logout',
+            'click #change-password' : 'changePassword',
             'click #preview-tasks' : 'preview',
             'click #settings': 'config'
         },
@@ -52,8 +53,6 @@ define([
 
             var mainContentView = new MainContentView();
             self.showChildView('main-content', mainContentView);
-
-
         },
 
         auth_succeed: function(user) {
@@ -63,13 +62,7 @@ define([
             var getNextWeek = function() {
                 return $.ajax({
                     url: '/weeks/next',
-                    method: 'get',
-                    success: function(response) {
-                        //
-                    },
-                    error: function(response) {
-                        console.log(response);
-                    }
+                    method: 'get'
                 });
             };
             $.when(getNextWeek()).done(function(nextWeek, message){
@@ -111,7 +104,7 @@ define([
                 url: '/users',
                 method: 'get',
                 success: function(response) {
-                    var view = new MembersView({collection: response.users});
+                    var view = new MembersView({collection: response.users, loginUser: self.loginUser});
                     self.showChildView('member-list', view);
                 },
                 error: function(response) {
@@ -131,8 +124,6 @@ define([
                     console.log(response);
                 }
             });
-//            var loggingView = new LoginView({model: {closable: true}});
-//            this.showOverlay(loggingView);
         },
 
         config: function() {
@@ -158,6 +149,11 @@ define([
             this.showChildView('overlay', view);
             _.extend(UIkit.modal('#overlay').options, opts);
             UIkit.modal('#overlay').show();
+        },
+
+        changePassword: function(e) {
+            var pwdChangeView = new PasswordView({loginUser: this.loginUser});
+            this.showOverlay(pwdChangeView);
         }
     });
     return MainView;

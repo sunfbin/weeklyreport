@@ -19,15 +19,27 @@ def login():
         remember_me = request.values['remember_me']
     user = User.query.filter_by(user_id = name).first()
     if not user:
-        is_auth = False
-    else:
-        is_auth = user.verify_password(password)
+        result = {
+            'is_auth': False,
+            'msg': 'User not found'
+        }
+        response = make_response(jsonify(result), 401)
+        return response
+
+    is_auth = user.verify_password(password)
+    if is_auth:
         login_user(user, remember = remember_me)
-    result = {
-        'is_auth': is_auth,
-        'user': user.serialize()
-    }
-    response = make_response(jsonify(result), 200)
+        result = {
+            'is_auth': is_auth,
+            'user': user.serialize()
+        }
+        response = make_response(jsonify(result), 200)
+    else:
+        result = {
+            'is_auth': is_auth,
+            'msg': 'Password not match. Authentication failed'
+        }
+        response = make_response(jsonify(result), 401)
     return response
 
 

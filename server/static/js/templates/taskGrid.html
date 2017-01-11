@@ -3,8 +3,14 @@
         {{#items}}
         <tr class="task-row" data-task-id="{{id}}">
             <td data-task-id='{{id}}' style="width:60px;">
+                {{#editable}}
                 <a class="uk-icon-edit task-row-action" data-task-id='{{id}}' data-task-name='{{name}}'></a>
                 <a class="uk-icon-trash task-row-action" data-task-id='{{id}}' data-task-name='{{name}}'></a>
+                {{/editable}}
+                {{^editable}}
+                <a class="uk-icon-edit task-row-action link-disabled"></a>
+                <a class="uk-icon-trash task-row-action link-disabled"></a>
+                {{/editable}}
             </td>
             <td style="width:190px;" data-uk-tooltip title="{{name}}">{{name}}</td>
             <td style="color:{{status}};width:70px;">

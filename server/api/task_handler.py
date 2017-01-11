@@ -22,8 +22,6 @@ def get_tasks():
         "tasks": [task.serialize() for task in tasks]
     }
     response = make_response(jsonify(result), 200)
-    # response.set_cookie('username', 'the username')
-    response.headers['Content-type'] = 'application/json'
     return response
 
 
@@ -33,13 +31,11 @@ def read_task(task_id):
 
     if task is None:
         response = make_response(jsonify({}), 404)
-        response.headers['Content-type'] = 'application/json'
     else:
         result = {
             "task": task.serialize()
         }
         response = make_response(jsonify(result), 200)
-        response.headers['Content-type'] = 'application/json'
     return response
 
 
@@ -54,7 +50,6 @@ def create_task():
         'task': task.serialize()
     }
     response = make_response(jsonify(result), 200)
-    response.headers['Content-type'] = 'application/json'
     return response
 
 
@@ -65,7 +60,6 @@ def delete_task(task_id):
     db.session.commit()
     result = {'success': True}
     response = make_response(jsonify(result), 200)
-    response.headers['Content-type'] = 'application/json'
     return response
 
 
@@ -84,7 +78,6 @@ def update_task(task_id):
 
     result = {'success': True}
     response = make_response(jsonify(result), 200)
-    response.headers['Content-type'] = 'application/json'
     return response
 
 
