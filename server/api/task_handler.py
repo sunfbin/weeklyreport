@@ -1,5 +1,5 @@
 from flask_login import login_required
-from flask import make_response, jsonify, request, send_from_directory
+from flask import make_response, jsonify, request
 
 from server.model import db
 from server import app
@@ -26,8 +26,9 @@ def get_tasks():
 
 
 @app.route('/tasks/<task_id>')
+@login_required
 def read_task(task_id):
-    task = Task.query.get_or_404(task_id);
+    task = Task.query.get_or_404(task_id)
 
     if task is None:
         response = make_response(jsonify({}), 404)
@@ -40,6 +41,7 @@ def read_task(task_id):
 
 
 @app.route('/tasks', methods=['post'])
+@login_required
 def create_task():
     task = Task(request.values)
     db.session.add(task)
@@ -54,6 +56,7 @@ def create_task():
 
 
 @app.route('/tasks/<task_id>', methods=['delete'])
+@login_required
 def delete_task(task_id):
     task = Task.query.get(task_id)
     db.session.delete(task)
@@ -64,6 +67,7 @@ def delete_task(task_id):
 
 
 @app.route('/tasks/<task_id>', methods=['put'])
+@login_required
 def update_task(task_id):
     task = Task.query.get(task_id)
     new_task = Task(request.values)
@@ -79,13 +83,3 @@ def update_task(task_id):
     result = {'success': True}
     response = make_response(jsonify(result), 200)
     return response
-
-
-@app.route('/tasks/export')
-def export_tasks():
-    # zero  : clear the specific directory
-    # first : query the tasks list
-    # second: generate excel file
-    # third: save it in some specific directory
-    # forth: send it to http response
-    return send_from_directory(directory='database', filename='users.json')

@@ -2,7 +2,12 @@
     <button type="button" class="uk-modal-close uk-close "></button>
 
     <div class="uk-modal-header">
+        {{#userName}}
+        <h2>{{action}} Task {{name}} for {{userName}}</h2>
+        {{/userName}}
+        {{^userName}}
         <h2>{{action}} Task {{name}}</h2>
+        {{/userName}}
     </div>
 
     <form id="task_form" class="uk-form uk-form-horizontal">

@@ -6,7 +6,8 @@
 
 define([
     './baseView',
-    'text!../templates/presentation.html'
+    'text!../templates/presentation.html',
+    'uikit.slideshow'
 ], function(BaseView, viewTemplate) {
     var PresentationView = BaseView.extend({
         events: {

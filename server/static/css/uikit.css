@@ -5938,7 +5938,7 @@ a.uk-thumbnail:focus {
 .uk-modal-dialog {
   position: relative;
   box-sizing: border-box;
-  margin: 145px auto;
+  margin: 50px auto;
   padding: 20px;
   width: 600px;
   max-width: 100%;

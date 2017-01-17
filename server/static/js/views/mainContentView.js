@@ -81,6 +81,7 @@ define([
             }
             var task = {
                 userId: this.loginUser.id,
+                userName: this.loginUser.name,
                 weekId: this.selectedWeek.id,
                 eta: this.weekDate,
                 progress: 0,
@@ -118,7 +119,6 @@ define([
             var getPresentTasks = function() {
                 return $.ajax({
                     url: '/users/tasks',
-//                    url: '/tasks/present',
                     method: 'get',
                     data: {
                         status: 'normal',
@@ -133,10 +133,9 @@ define([
                     user.index = idx++;
                     user.tasks.forEach(function(task){
                         task.risk = _.isEmpty(task.risk) ? undefined : task.risk;
-//                        task.description = _.isEmpty(task.description) ? undefined : task.description;
                     })
                 });
-                response.date = self.weekDate;
+                response.date = self.selectedWeek.date;
 
                 var presentView = new PresentationView({model: response});
                 self._parentView().showOverlay(presentView, {
@@ -146,10 +145,7 @@ define([
                 $('.uk-slidenav-previous').hide();
 
                 UIkit.slideshow('[data-uk-slideshow]').on('show.uk.slideshow', function(e, current, next){
-                    // do not scroll infinitely.
                     var scope = UIkit.slideshow('[data-uk-slideshow]');
-                    console.log('show')
-//                    $('.uk-slidenav-next').focus();
                     var current = scope.current;
                     if (scope.slides[current + 1]) {
                         scope.find('.uk-slidenav-next').show();
@@ -167,7 +163,26 @@ define([
 
         exportTasks: function(e) {
             e.preventDefault();
-            console.log('export')
+            var self = this;
+            var modal = UIkit.modal.blockUI("<i class='uk-icon-spinner uk-icon-spin uk-icon-medium'></i> Please wait ..."); // modal.hide() to unblock
+            var form1 = document.createElement("form");
+            var input1 = document.createElement("input");
+            var input2 = document.createElement("input");
+            input1.type = "hidden";
+            input1.name = "weekId";
+            input1.value = self.selectedWeek.id;
+            input2.type = "hidden";
+            input2.name = "weekDate";
+            input2.value = self.selectedWeek.date;
+            form1.appendChild(input1);
+            form1.appendChild(input2);
+            form1.method = "get";
+            form1.action = "/tasks/export";
+
+            setTimeout(function() {
+                modal.hide();
+            }, 1100);
+            form1.submit();
         }
     });
 

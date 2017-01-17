@@ -1,4 +1,5 @@
 #!/bin/bash
+export PATH=$PATH:/usr/local/mysql/bin/
 
 # base condition is that python should be available on your server
 # install necessary libs, like pip, virtualenv
@@ -29,6 +30,8 @@ source ./bin/activate
 pip install flask
 pip install flask_login
 pip install Flask-SQLAlchemy
+pip install xhtml2pdf
+pip install html5lib==1.0b8
 pip install mysql-python
 if [ $? -ne 0 ]; then
     # assume it is Ubuntu system

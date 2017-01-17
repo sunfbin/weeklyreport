@@ -3,7 +3,7 @@ from flask_login import login_required
 import datetime
 from server import app
 from server.model import db
-from sqlalchemy import desc, asc
+from sqlalchemy import desc
 from server.model.Week import Week
 
 date_format = '%Y-%m-%d'
@@ -57,11 +57,20 @@ def save_week():
 @login_required
 def update_week(week_id):
     # status could be skipped [skip], holiday[] or normal [active]
-    week = Week.query.filter_by(id=week_id).first()
-    status = request.values['status']
-    week.status = status
+    week = Week.query.get(week_id)
+    if 'date' in request.values:
+        date = request.values['date']
+        week.date = date
+    if 'status' in request.values:
+        status = request.values['status']
+        week.status = status
+
     db.session.commit()
-    response = make_response(jsonify(week), 200)
+    result = {
+        'success': True,
+        'week': week.serialize()
+    }
+    response = make_response(jsonify(result), 200)
     return response
 
 

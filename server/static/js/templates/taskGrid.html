@@ -31,7 +31,10 @@
         {{^items}}
         <br>
         <div class="uk-alert uk-alert-success" data-uk-alert="">
-            <p>No tasks. Use the <a id="add-task" style="font:bold;">Add</a> button to add new task</p>
+            <p>No tasks have been added yet.
+            {{#editable}}
+            <br>Use the <a id="add-task" style="font:bold;">Add</a> button to add new task</p>
+            {{/editable}}
         </div>
         {{/items}}
     </tbody>

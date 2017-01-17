@@ -12,13 +12,18 @@
                 </ul>
                 <div class="uk-navbar-flip">
                     <ul class="uk-navbar-nav">
-                        <li class="uk-parent" data-uk-dropdown="" aria-haspopup="true" aria-expanded="false">
+                        <li class="uk-parent uk-dropdown-close" data-uk-dropdown="" aria-haspopup="true" aria-expanded="false">
                             <a id="loginUser" class="uk-link">
                                 <i class="uk-icon-user"></i> <span></span>
                             </a>
                             <div class="uk-dropdown uk-dropdown-navbar uk-dropdown-bottom" aria-hidden="true" tabindex="" style="top: 40px; left: 0px;">
                                 <ul class="uk-nav uk-nav-navbar">
-                                    <li><a id="change-password">Change Password</a></li>
+                                    <li><a id="change-password">
+                                        <i class="uk-icon-key"></i> Change Password
+                                    </a></li>
+                                    <li><a id="edit-profile">
+                                        <i class="uk-icon-card"></i> My Profile
+                                    </a></li>
                                 </ul>
                             </div>
                         </li>
@@ -41,8 +46,10 @@
     <div class="uk-grid tasks-list" data-uk-grid="{gutter: 20}" >
         <div class="uk-width-1-5">
             <div class="uk-panel uk-panel-box uk-panel-box-primary">
-                <h3 class=""> Date:
-                <span class="" id="report-date" data-week-id=""> loading </span></h3>
+                <h4 class=""> Date:
+                    <span class="" id="report-date" data-week-id=""> loading </span>
+                    &nbsp;&nbsp;<a id="change-week-date" data-uk-tooltip title="Click to change report date"><i class="uk-icon-calendar"></i></a>
+                </h4>
             </div>
             <!-- here is the members nav view -->
             <div id="members-view" class="uk-panel uk-panel-box"></div>

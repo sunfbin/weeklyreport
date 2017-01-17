@@ -5,7 +5,8 @@
  */
 
 define([
-    'backbone.syphon'
+    'backbone.syphon',
+    'uikit.notify'
 ], function(Syphon) {
     var BaseView = Backbone.Marionette.View.extend({
 

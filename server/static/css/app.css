@@ -156,3 +156,16 @@ input.uk-form-blank {
     cursor: text;
     background: none;
 }
+
+.user-list-item {
+    width: 85%;
+    margin-bottom: 10px;
+}
+
+.uk-icon-card:before {
+    content: "\f2bb";
+}
+
+.uk-icon-pdf:before {
+    content: "\f1c1";
+}

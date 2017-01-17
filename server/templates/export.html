@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Export PDF</title>
+    <style>
+        h1{
+            text-align: center;
+            font-size: 100px;
+        }
+        h2{
+            font-size: 40px;
+            padding: 0px;
+            margin: 0px;
+        }
+        table {
+            border-collapse: collapse;
+        }
+        table, td, th {
+            border: 1px solid black;
+            width: 100%;
+        }
+        th {
+            text-align: left;
+        }
+        th, td{
+            padding: 2px;
+        }
+        th{
+            background: #ADD8E6;
+        }
+        td{
+            background: #F0F8FF;
+        }
+    </style>
+</head>
+<body>
+    <h1>Weekly Report {{weekDate}}</h1>
+    <div>
+        {% for each_user in data.users %}
+        <div>
+                <h2>{{each_user.name}}</h2>
+                <ul>
+                    <li>{{each_user.role}}</li>
+                </ul>
+                <table>
+                    <tr>
+                        <th>Task Name</th>
+                        <th>Project</th>
+                        <th style="width:28%;">Status</th>
+                        <th>Current Progress</th>
+                        <th style="width:40%;">Target ETA</th>
+                        <th>Risks</th>
+                    </tr>
+                    {%- if each_user.tasks -%}
+                    {% for each_task in each_user.tasks %}
+                    <tr>
+                        <td>{{each_task.name}}</td>
+                        <td>{{each_task.project}}</td>
+                        <td style="width:28%; color:{{each_task.status}}">{{each_task.progress}}%</td>
+                        <td>{{each_task.description}}</td>
+                        <td style="width:40%;">{{each_task.eta}}</td>
+                        {% if each_task.risk -%}
+                        <td>{{each_task.risk}}</td>
+                        {%- else -%}
+                        <td></td>
+                        {%- endif %}
+                    </tr>
+                    {% endfor %}
+                    {%- endif -%}
+                </table>
+        </div>
+        <br>
+        {% endfor %}
+    </div>
+</body>
+</html>

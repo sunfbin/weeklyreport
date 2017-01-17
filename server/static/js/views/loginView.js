@@ -59,7 +59,7 @@ define([
 
         cancel: function(e) {
             e.preventDefault();
-            UIkit.modal("#overlay").hide();
+            close();
         }
     });
 

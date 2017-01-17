@@ -1,0 +1,45 @@
+
+<div class="uk-modal-dialog">
+    <button type="button" class="uk-modal-close uk-close "></button>
+
+    <div class="uk-modal-header">
+        <h2>View Profile for {{name}}</h2>
+    </div>
+
+    <div class="uk-grid">
+        <div class="uk-width-1-4">
+            <a class="uk-thumbnail uk-thumbnail-mini" id="select-avatar">
+                <img src="/static/images/{{userId}}.jpg" alt="avatar" data-uk-tooltip title="Click avatar to change">
+                <div class="uk-thumbnail-caption">Avatar</div>
+            </a>
+        </div>
+        <div class="uk-width-3-4">
+            <form class="uk-form uk-form-horizontal">
+                <div class="uk-form-row">
+                    <label class="uk-form-label" for="name">Name: </label>
+                    <input type="text" name="name" id="name" value="{{name}}" disabled/>
+                </div>
+                <div class="uk-form-row">
+                    <label class="uk-form-label" for="email">Email: </label>
+                    <input type="email" name="email" value="{{email}}"  id="email" disabled/>
+                </div>
+                <div class="uk-form-row">
+                    <label class="uk-form-label" for="status">Status: </label>
+                    <select type=""  id="status" name="status">
+                        <option value="normal" selected>Normal</option>
+                        <option value="leave">Leave</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="uk-modal-footer uk-text-right">
+        <!--<a href="" id="cancel" class="uk-link">Cancel</a>-->
+        &nbsp;&nbsp;
+        <input type="button" id="save" class="uk-button" value="Close"/>
+    </div>
+    <div class="uk-tooltip uk-tooltip-right" >
+        <div class="uk-tooltip-inner">Click Avatar to change it!</div>
+    </div>
+</div>

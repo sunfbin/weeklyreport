@@ -3,13 +3,13 @@
     <nav class="uk-navbar">
         <div class="uk-navbar-flip">
             <ul class="uk-navbar-nav uk-hidden-small">
-                <li><a id="add-task">Add</a></li>
-                <li class="uk-parent" data-uk-dropdown="" aria-haspopup="true" aria-expanded="false">
-                    <a href="#" class="uk-navbar-nav-subtitle">More<div>Advanced</div></a>
-                    <div class="uk-dropdown uk-dropdown-navbar uk-dropdown-bottom" aria-hidden="true" tabindex="" style="top: 40px; left: 0px;">
+                <li><a id="add-task"><i class="uk-icon-plus-circle"></i> Add</a></li>
+                <li class="uk-parent uk-dropdown-close" data-uk-dropdown="" aria-haspopup="true" aria-expanded="false">
+                    <a href="#" class="uk-navbar-nav-subtitle"><i class="uk-icon-caret-down"></i> More<div>Advanced</div></a>
+                    <div class="uk-dropdown uk-dropdown-small uk-dropdown-navbar uk-dropdown-bottom" aria-hidden="true" tabindex="" style="top: 40px; left: 0px;">
                         <ul class="uk-nav uk-nav-navbar">
-                            <li><a id="do-present"><i class="uk-icon-television"></i>Present</a></li>
-                            <li><a id="export">Export</a></li>
+                            <li><a id="do-present"><i class="uk-icon-desktop"></i> Present</a></li>
+                            <li><a id="export"><i class="uk-icon-pdf"></i> Export</a></li>
                         </ul>
                     </div>
                 </li>
@@ -18,10 +18,6 @@
     </nav>
 </div>
 <div class="task-container">
-    <!-- <div class="uk-alert uk-alert-success" data-uk-alert="">
-        <a href="#" class="uk-alert-close uk-close"></a>
-        <p>This is a success alert using an a element as close button.</p>
-    </div> -->
     <table class="uk-table uk-table-striped uk-table-condensed uk-table-hover tasks-table" >
         <thead>
             <tr style="border:0px;">

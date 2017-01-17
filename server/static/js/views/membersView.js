@@ -13,12 +13,16 @@ define([
             return Hogan.compile(UserTemplate).render(data);
         },
         serializeCollection: function() {
+            var collection = [];
             if (_.isArray(this.collection)) {
                 this.collection.forEach(function(user){
-                    user.fontColor = user.gender == 'female' ? 'coral' : 'black';
+                    if (user.role != 'Manager' && user.role != 'Admin') {
+                        user.fontColor = user.gender == 'female' ? 'coral' : 'black';
+                        collection.push(user);
+                    }
                 });
             }
-            return this.collection;
+            return collection;
         },
         onRender: function() {
             var loginUser = this.options.loginUser;

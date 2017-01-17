@@ -13,11 +13,11 @@ define([
             'click #save' : 'save',
             'click #cancel' : 'cancel'
         },
-
-        render: function() {
-            var form = this.compileTemplate(viewTemplate).render();
-            this.$el.html(form);
-            return this;
+        template: function(data) {
+            return Hogan.compile(viewTemplate).render(data);
+        },
+        onRender: function() {
+            this.$el.find('label[for=old_pwd]').trigger('click')
         },
 
         save: function() {

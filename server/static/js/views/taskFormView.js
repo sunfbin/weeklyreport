@@ -7,7 +7,8 @@
 define([
     './baseView',
     '../models/taskModel',
-    'text!../templates/taskForm.html'
+    'text!../templates/taskForm.html',
+    'uikit.datepicker'
 ], function(BaseView, Task, TaskFormTemplate) {
     var TaskFormView = BaseView.extend({
         events: {
