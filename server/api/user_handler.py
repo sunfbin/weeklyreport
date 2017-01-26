@@ -12,7 +12,7 @@ import os
 @app.route('/users')
 @login_required
 def get_all_users():
-    users = User.query.filter(User.role <> "Manager", User.role != "admin").order_by('user_oder')
+    users = User.query.filter(User.role.in_(['DEV', 'QA'])).order_by('user_oder')
     result = {
         "success": True,
         "users": [user.serialize() for user in users]
@@ -66,6 +66,7 @@ def get_present_users_tasks():
         weekId = request.values['weekId']
     else:
         return make_response('Bad request', 400)
+
     result = get_users_tasks(weekId)
     response = make_response(jsonify(result), 200)
     print response
@@ -73,9 +74,15 @@ def get_present_users_tasks():
 
 
 def get_users_tasks(weekId):
-    users = User.query.filter(User.role <> 'manager', User.role <> 'admin').order_by('user_oder').all()
+    from server.model.Task import Task
+    if isinstance(weekId, list):
+        param = weekId
+    else:
+        param = [weekId]
+
+    users = User.query.filter(User.role.in_(['DEV', 'QA'])).order_by('user_oder').all()
     for user in users:
-        user.tasks = user.tasks.filter_by(week_id=weekId).all()
+        user.tasks = user.tasks.filter(Task.week_id.in_(param)).all()
     result = {
         'users': [user.serialize(True) for user in users]
     }
@@ -92,11 +99,23 @@ def create_pdf(pdf_data, weekDate):
 
 
 @app.route('/tasks/export')
-@fresh_login_required
+@login_required
 def export_tasks():
     if len(request.values) > 0:
-        weekId = request.values['weekId']
-        weekDate = request.values['weekDate']
+        if 'weekId' in request.values:
+            weekId = request.values['weekId']
+            weekDate = request.values['weekDate']
+        elif 'startDate' in request.values:
+            start_date = request.values['startDate']
+            end_date = request.values['endDate']
+
+            from server.model.Week import Week
+            weeks = Week.query.filter(Week.date.between(start_date, end_date)).all()
+            weekId = []
+            weekDate = start_date + '_To_' +end_date
+            if len(weeks) > 0:
+                for w in weeks:
+                    weekId.append(w.id)
     else:
         return make_response('Bad request', 400)
     data = get_users_tasks(weekId)

@@ -44,3 +44,4 @@ import server.api.login_handler
 import server.api.task_handler
 import server.api.user_handler
 import server.api.week_handler
+import server.api.upload_handler

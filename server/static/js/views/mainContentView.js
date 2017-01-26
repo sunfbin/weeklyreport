@@ -96,8 +96,6 @@ define([
         },
 
         showDetailView: function(taskId) {
-            // TODO when save task, pass all the params to backend? or just part of task data
-            // then in backend handler, just use update? not create
             var self = this;
             $.ajax({
                 url: '/tasks/'+taskId,

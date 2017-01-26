@@ -65,6 +65,9 @@ define([
                 // not able to change report date or present order
                 this.$el.find('#change-week-date').hide();
                 this.$el.find('#settings').parent().hide();
+            } else {
+                // admin and manager are not required to add task
+                this.$el.find('#add-task').hide();
             }
             this.$el.find('#loginUser span').text(this.loginUser.name);
             var getNextWeek = function() {
