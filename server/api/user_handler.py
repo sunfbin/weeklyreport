@@ -93,6 +93,8 @@ def create_pdf(pdf_data, weekDate):
     name = "weekly_report_" + weekDate + ".pdf"
     root_path = os.path.dirname(__file__)
     data_path = os.path.join(root_path, "../download")
+    if not os.path.isdir(data_path):
+        os.makedirs(data_path)
     pdf = open(os.path.join(data_path, name), "w")
     pisa.CreatePDF(StringIO(pdf_data), pdf)
     return name

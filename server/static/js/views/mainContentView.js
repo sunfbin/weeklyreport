@@ -130,6 +130,8 @@ define([
                 response.users.forEach(function(user){
                     user.index = idx++;
                     user.tasks.forEach(function(task){
+                        task.risk = task.risk.replace(/\n/g, '<br>');
+                        task.description = task.description.replace(/\n/g, '<br>');
                         task.risk = _.isEmpty(task.risk) ? undefined : task.risk;
                     })
                 });
@@ -176,6 +178,7 @@ define([
             form1.appendChild(input2);
             form1.method = "get";
             form1.action = "/tasks/export";
+            $(document.body).append(form1);
 
             setTimeout(function() {
                 modal.hide();

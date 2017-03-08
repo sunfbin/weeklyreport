@@ -30,7 +30,10 @@ def upload_avatar():
         }
         return make_response(jsonify(result), 400)
     file_name = secure_filename(avatar.filename)
-    avatar.save(os.path.join(app.config['UPLOAD_FOLDER'], file_name))
+    upload_folder = app.config['UPLOAD_FOLDER']
+    if not os.path.isdir(upload_folder):
+        os.makedirs(upload_folder)
+    avatar.save(os.path.join(upload_folder, file_name))
     copy_to_static(file_name)
     result = {
         'success': True,

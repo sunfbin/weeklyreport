@@ -169,3 +169,14 @@ input.uk-form-blank {
 .uk-icon-pdf:before {
     content: "\f1c1";
 }
+
+.uk-panel-block {
+    padding-bottom: 10px;
+    border-bottom: 2px solid #dddddd;
+}
+
+.uk-panel-header .uk-panel-title {
+  padding-bottom: 10px;
+  border-bottom: 3px solid #737678;
+  color: #444444;
+}
